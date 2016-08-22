@@ -9,15 +9,6 @@
   stroke-width: 1px;
 }
 
-/*.line-separator, .x-axis {
-  stroke: black;
-  fill: none;
-  stroke-width: 1px;
-}
-
-.line-separator:last-child {
-  display: none;
-}*/
 .axes {
   fill: #fafafa;
 }
@@ -102,4 +93,15 @@ text.drop:hover {
 #pf-timeline-slider {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
+}
+
+#grid-stripes rect {
+  fill: #fafafa;
+  shape-rendering: crispEdges;
+}
+
+#grid-stripes line {
+  stroke: #d1d1d1;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
 }
