@@ -1,0 +1,13 @@
+{
+    "extends": "airbnb/base",
+    "rules": {
+        "indent": [2, 4],
+        "id-length": [2, { "min": 1 }]
+    },
+    "env": {
+        "jasmine": true
+    },
+    "globals": {
+        "d3": true
+    }
+}
