@@ -9,41 +9,10 @@ export default (container, dimensions, scales, configuration, data, callback) =>
 
   const grid = d3.select('.grid');
 
-  if (configuration.slider) {
-
-    const zoomIn = container.append('button')
-      .attr('type', 'button')
-      .attr('class', 'btn btn-default pf-timeline-zoom')
-      .attr('id', 'zoom-in')
-      .style('top', `${configuration.padding.top}px`)
-      .style('right', `${configuration.padding.right}px`)
-      .on('click', zoomClick);
-    zoomIn.append('i')
-      .attr('class', 'fa fa-plus');
-
-    const zoomOut = container.append('button')
-      .attr('type', 'button')
-      .attr('class', 'btn btn-default pf-timeline-zoom')
-      .attr('id', 'zoom-out')
-      .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
-      .style('right', `${configuration.padding.right}px`)
-      .on('click', zoomClick);
-    zoomOut.append('i')
-      .attr('class', 'fa fa-minus');
-
-    const zoomSlider = container.append('input')
-      .attr('type', 'range')
-      .attr('class', 'pf-timeline-zoom')
-      .attr('id', 'pf-timeline-slider')
-      .style('width', `${dimensions.height - (zoomIn.node().offsetHeight*2)}px`)
-      .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight)*2)/2) + zoomIn.node().offsetHeight - 7}px`)
-      .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight)/2 + zoomIn.node().offsetWidth}px`)
-      .attr('value', 1)
-      .attr('min', 1)
-      .attr('max', 720)
-      .attr('step', .5)
-      .on('input', slided);
-  }
+  const sliderScale = d3.scale.log()
+    .domain([configuration.minScale, configuration.maxScale])
+    .range([configuration.minScale, configuration.maxScale])
+    .base(2);
 
   const dropdown = d3.selectAll('.zoom-filter > li > a')
     .on('click', zoomFilter);
@@ -57,13 +26,51 @@ export default (container, dimensions, scales, configuration, data, callback) =>
     .x(scales.x)
     .on('zoom', () => {
       requestAnimationFrame(() => callback(data));
-      // zoomSlider.property('value', zoom.scale());
     });
 
   if (configuration.eventZoom) {
     zoom.on('zoomend', configuration.eventZoom);
   }
 
+  if (configuration.slider) {
+    const zoomIn = container.append('button')
+      .attr('type', 'button')
+      .attr('class', 'btn btn-default pf-timeline-zoom')
+      .attr('id', 'zoom-in')
+      .style('top', `${configuration.padding.top}px`)
+      .style('right', `${configuration.padding.right}px`)
+      .on('click', zoomClick);
+      zoomIn.append('i')
+      .attr('class', 'fa fa-plus');
+
+    const zoomOut = container.append('button')
+      .attr('type', 'button')
+      .attr('class', 'btn btn-default pf-timeline-zoom')
+      .attr('id', 'zoom-out')
+      .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
+      .style('right', `${configuration.padding.right}px`)
+      .on('click', zoomClick);
+      zoomOut.append('i')
+      .attr('class', 'fa fa-minus');
+
+    const zoomSlider = container.append('input')
+      .attr('type', 'range')
+      .attr('class', 'pf-timeline-zoom')
+      .attr('id', 'pf-timeline-slider')
+      .style('width', `${dimensions.height - (zoomIn.node().offsetHeight*2)}px`)
+      .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight)*2)/2) + zoomIn.node().offsetHeight - 7}px`)
+      .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight)/2 + zoomIn.node().offsetWidth}px`)
+      .attr('value', sliderScale(zoom.scale()))
+      .attr('min', configuration.minScale)
+      .attr('max', configuration.maxScale)
+      .attr('step', .1)
+      .on('input', zoomClick);
+
+    zoom.on('zoom', () => {
+      requestAnimationFrame(() => callback(data));
+      zoomSlider.property('value', sliderScale(zoom.scale()));
+    })
+  }
   // if (configuration.brushZoom) {
   //   return container.call(zoom)
   //     .on("dblclick.zoom", null)
@@ -76,15 +83,14 @@ export default (container, dimensions, scales, configuration, data, callback) =>
   // }
   return grid.call(zoom)
     .on("dblclick.zoom", null);
-    // .on('mousemove', () => {
-    //   var m = d3.mouse(grid[0][0]);
-    //   var pt = [m[0] - 205, m[1]];
-    //   zoom.center(pt);
-    // });
 
-
-  function slided(d) {
-    var center = dimensions.width / 2,
+  function zoomClick() {
+    var clicked = d3.event.target,
+      factor = .5,
+      target_zoom = 1,
+      duration = 0,
+      center = dimensions.width / 2,
+      extent = zoom.scaleExtent(),
       translate0,
       l,
       view = {
@@ -92,36 +98,22 @@ export default (container, dimensions, scales, configuration, data, callback) =>
         k: zoom.scale()
       };
 
-    d3.event.preventDefault();
-
-    translate0 = (center - view.x) / view.k;
-    view.k = d3.select(this).property("value");
-    l = translate0 * view.k + view.x;
-
-    view.x += center - l;
-    interpolateZoom([view.x, 0], view.k, 0);
-  }
-
-
-
-  function zoomClick(factor = .5) {
-    var clicked = d3.event.target,
-      direction = 1,
-      target_zoom = 1,
-      center = [dimensions.width / 2, dimensions.height / 2],
-      extent = zoom.scaleExtent(),
-      translate = zoom.translate(),
-      translate0 = [],
-      l = [],
-      view = {
-        x: translate[0],
-        y: translate[1],
-        k: zoom.scale()
-      };
-
-    d3.event.preventDefault();
-    direction = (this.id === 'zoom-in') ? 1 : -1;
-    target_zoom = zoom.scale() * (1 + factor * direction);
+    // d3.event.preventDefault();
+    switch (this.id) {
+      case 'zoom-in':
+        target_zoom = zoom.scale() * (1 + factor);
+        duration = 100;
+        break;
+      case 'zoom-out':
+        target_zoom = zoom.scale() * (1 + factor * -1);
+        duration = 100;
+        break;
+      case 'pf-timeline-slider':
+        target_zoom = sliderScale.invert(this.value);
+        break;
+      default:
+        target_zoom = zoom.scale();
+    }
 
     if (target_zoom < extent[0]) {
       target_zoom = extent[0]
@@ -129,13 +121,12 @@ export default (container, dimensions, scales, configuration, data, callback) =>
       target_zoom = extent[1]
     }
 
-    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+    translate0 = (center - view.x) / view.k;
     view.k = target_zoom;
-    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+    l = translate0 * view.k + view.x;
 
-    view.x += center[0] - l[0];
-    view.y += center[1] - l[1];
-    interpolateZoom([view.x, view.y], view.k, 100);
+    view.x += center - l;
+    interpolateZoom([view.x, 0], view.k, duration);
   }
 
 

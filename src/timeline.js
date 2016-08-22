@@ -9,9 +9,7 @@ function timeline(config = {}) {
   const finalConfiguration = {...defaultConfig, ...config};
 
   const yScale = (data) => {
-    const scale = d3.scale.ordinal();
-
-    return scale
+    return d3.scale.ordinal()
       .domain(data.map((d) => d.name))
       .range(data.map((d, i) => i * finalConfiguration.lineHeight));
   };
@@ -30,6 +28,7 @@ function timeline(config = {}) {
   function timelineGraph(selection) {
     selection.each(function selector(data) {
       d3.select(this).select('.pf-timeline-chart').remove();
+      d3.select(this).selectAll('.pf-timeline-zoom').remove();
 
       let outer_width = finalConfiguration.width || selection.node().clientWidth;
       const height = data.length * finalConfiguration.lineHeight;
