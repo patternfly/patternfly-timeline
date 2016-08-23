@@ -2,13 +2,6 @@ body {
   background-color: #fff;
 }
 
-#gridStripes {
-  /*stroke: #d1d1d1;
-  fill: #fafafa;
-  stroke-width: 1px;*/
-  shape-rendering: crispEdges;
-}
-
 #pf-timeline {
   width: 100%;
   margin-left: auto;

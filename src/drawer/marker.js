@@ -4,7 +4,6 @@ export default (gridContainer, stampContainer, scales, dimensions, dateFormat) =
   gridContainer.append('rect')
     .attr('width', dimensions.width)
     .attr('height', dimensions.height)
-    .attr('fill', 'url(#gridStripes)')
     .on("mouseover", function() {
       marker.style("display", null);
       timeStamp.style("display", null);

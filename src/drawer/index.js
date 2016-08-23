@@ -18,31 +18,27 @@ export default (svg, dimensions, scales, configuration) => {
       .attr('height', dimensions.height);
 
   const pattern = defs.append('pattern')
-    .attr('id', 'gridStripes')
+    .attr('id', 'grid-stripes')
     .attr('width', dimensions.width)
     .attr('height', (configuration.lineHeight)*2)
     .attr('patternUnits', 'userSpaceOnUse');
   pattern.append('rect')
     .attr('width', dimensions.width)
-    .attr('height', configuration.lineHeight)
-    .attr('fill', '#fafafa');
+    .attr('height', configuration.lineHeight);
   pattern.append('line')
     .attr('x1', 0)
     .attr('x2', dimensions.width)
     .attr('y1', configuration.lineHeight)
-    .attr('y2', configuration.lineHeight)
-    .attr('stroke', '#d1d1d1')
-    .attr('stroke-width', '1px');
+    .attr('y2', configuration.lineHeight);
   pattern.append('line')
     .attr('x1', 0)
     .attr('x2', dimensions.width)
     .attr('y1', '1px')
-    .attr('y2', '1px')
-    .attr('stroke', '#d1d1d1')
-    .attr('stroke-width', '1px');
+    .attr('y2', '1px');
 
   const gridContainer = svg.append('g')
     .classed('grid', true)
+    .attr('fill', 'url(#grid-stripes)')
     .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth}, ${configuration.padding.top})`);
 
   const labelsContainer = svg.append('g')
