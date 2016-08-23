@@ -9,13 +9,13 @@ module.exports = function (config) {
         basePath: '../..',
         browserNoActivityTimeout: 30000,
         frameworks: ['jasmine'],
-        browsers: ['Firefox'],
+        browsers: ['PhantomJS'],
         files: [
             './node_modules/d3/d3.js',
             './test/karma/*',
             './test/karma/**/*.js'
         ],
-        plugins: ['karma-webpack', 'karma-jasmine', 'karma-firefox-launcher'],
+        plugins: ['karma-webpack', 'karma-jasmine', 'karma-firefox-launcher', 'karma-phantomjs-launcher'],
         preprocessors: {
             'src/**/*.js': 'webpack',
             'test/karma/**/*.js': 'webpack'
