@@ -15,7 +15,7 @@ const config = {
   },
   labelWidth: 140,
   sliderWidth: 30,
-  contextHeight: 80,
+  contextHeight: 50,
   locale: null,
   axisFormat: null,
   tickFormat: [
@@ -57,7 +57,7 @@ const config = {
   },
   zoomable: true,
   marker: true,
-  context: false,
+  context: true,
   slider: true
 };
 

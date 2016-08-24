@@ -4,7 +4,6 @@ import axesFactory from './axes';
 import dropsFactory from './drops';
 import labelsFactory from './labels';
 import markerFactory from './marker';
-import contextFactory from './context';
 
 export default (svg, dimensions, scales, configuration) => {
   const defs = svg.append('defs');
@@ -54,25 +53,21 @@ export default (svg, dimensions, scales, configuration) => {
     .attr('clip-path', 'url(#drops-container-clipper)')
     .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth},  ${configuration.padding.top})`);
 
-  const stampContainer = svg.append('g')
-    .classed('timestamp', true)
-    .attr('height', 30)
-    .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth}, ${configuration.padding.top})`);
+  if (configuration.marker) {
+    const stampContainer = svg.append('g')
+      .classed('timestamp', true)
+      .attr('height', 30)
+      .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth}, ${configuration.padding.top})`);
 
-  // const contextContainer = svg.append("g")
-  //   .classed('context', true)
-  //   .attr('width', dimensions.width)
-  //   .attr('height', dimensions.contextHeight)
-  //   .attr("transform", `translate(${configuration.padding.left},${configuration.padding.top + dimensions.height})`);
+    markerFactory(gridContainer, stampContainer, scales, dimensions, configuration.dateFormat);
+  }
 
-
-  const marker = markerFactory(gridContainer, stampContainer, scales, dimensions, configuration.dateFormat)
   const axes = axesFactory(axesContainer, scales, configuration, dimensions);
   const labels = labelsFactory(labelsContainer, scales, configuration);
   const drops = dropsFactory(dropsContainer, scales, configuration);
 
+
   return data => {
-    // context(data);
     drops(data);
     labels(data);
     axes(data);

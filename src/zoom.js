@@ -17,16 +17,14 @@ export default (container, dimensions, scales, configuration, data, callback) =>
   const dropdown = d3.selectAll('.zoom-filter > li > a')
     .on('click', zoomFilter);
 
-  // const datepicker = $('#datepicker')
-  //         .on('changeDate', zoomFilter);
+  const datepicker = $('#datepicker')
+    .on('changeDate', zoomFilter);
 
   const zoom = d3.behavior.zoom()
     .size([dimensions.width, dimensions.height])
     .scaleExtent([configuration.minScale, configuration.maxScale])
     .x(scales.x)
-    .on('zoom', () => {
-      requestAnimationFrame(() => callback(data));
-    });
+    .on('zoom', zoomed);
 
   if (configuration.eventZoom) {
     zoom.on('zoomend', configuration.eventZoom);
@@ -65,28 +63,34 @@ export default (container, dimensions, scales, configuration, data, callback) =>
       .attr('max', configuration.maxScale)
       .attr('step', .1)
       .on('input', zoomClick);
-
-    zoom.on('zoom', () => {
-      requestAnimationFrame(() => callback(data));
-      zoomSlider.property('value', sliderScale(zoom.scale()));
-    })
   }
-  // if (configuration.brushZoom) {
-  //   return container.call(zoom)
-  //     .on("dblclick.zoom", null)
-  //     .on('mousemove', () => {
-  //       var m = d3.mouse(container[0][0]);
-  //       var pt = [m[0] - 205, m[1]];
-  //       zoom.center(pt);
-  //     })
-  //     .on("mousedown.zoom", null);
+
+  // if(configuration.context) {
+  //   const contextBrush = d3.select('.pf-timeline-brush');
+  //   zoom.on('zoom', () => {
+  //     requestAnimationFrame(() => callback(data));
+  //     contextBrush.extent(scales.x.domain());
+  //   })
   // }
   return grid.call(zoom)
     .on("dblclick.zoom", null);
 
+  function zoomed() {
+    requestAnimationFrame(() => callback(data));
+    if(configuration.slider) {
+      zoomSlider.property('value', sliderScale(zoom.scale()));
+    }
+    // if(configuration.context) {
+    //   const contextBrush = d3.select('.pf-timeline-brush');
+    //   zoom.on('zoom', () => {
+    //     requestAnimationFrame(() => callback(data));
+    //     contextBrush.extent(scales.x.domain());
+    //   })
+    // }
+  }
+
   function zoomClick() {
-    var clicked = d3.event.target,
-      factor = .5,
+    var factor = .5,
       target_zoom = 1,
       duration = 0,
       center = dimensions.width / 2,
@@ -98,7 +102,6 @@ export default (container, dimensions, scales, configuration, data, callback) =>
         k: zoom.scale()
       };
 
-    // d3.event.preventDefault();
     switch (this.id) {
       case 'zoom-in':
         target_zoom = zoom.scale() * (1 + factor);
@@ -202,11 +205,7 @@ export default (container, dimensions, scales, configuration, data, callback) =>
     } else if (relation == "centered") {
       time = new Date(time - range / 2);
       //             translate = -1 * (width * target_zoom);
-    } else if (relation == "starting") {
-      //             translate = (width / 2) - (width * target_zoom);
     }
-
-
 
     translate += (target_zoom * width * zoom.scale() / getRange(scales.x.domain())) * getRange([time, scales.x.domain()[0]]);
 
@@ -234,5 +233,4 @@ export default (container, dimensions, scales, configuration, data, callback) =>
   function getScale(oldRange, newRange) {
     return oldRange / newRange;
   }
-
 };
