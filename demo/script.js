@@ -92,5 +92,15 @@ $('#datepicker').datepicker({
   todayHighlight: true
 });
 
+d3.selectAll('.zoom-filter > li > a').on('click', function() {
+  var time = $('#datepicker').datepicker('getDate');
+  timeline.Zoom.zoomFilter(time, this.id.toLowerCase());
+});
+
+$('#datepicker').on('changeDate', function() {
+  var time = $('#datepicker').datepicker('getDate');
+  timeline.Zoom.zoomFilter(time);
+});
+
 startdate = new Date(today.getTime() - one_month);
 $('#datepicker').datepicker('setDate', today);

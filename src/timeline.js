@@ -3,10 +3,11 @@ import d3 from 'd3';
 import configurable from 'configurable.js';
 import defaultConfig from './config';
 import drawer from './drawer';
-import zoom from './zoom';
+import Zoom from './zoom';
 
 function timeline(config = {}) {
   const finalConfiguration = {...defaultConfig, ...config};
+  var zoomInstance = new Zoom();
 
   const yScale = (data) => {
     return d3.scale.ordinal()
@@ -57,12 +58,13 @@ function timeline(config = {}) {
       draw(data);
 
       if (finalConfiguration.zoomable) {
-        zoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
+        zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
       }
     });
   }
 
   configurable(timelineGraph, finalConfiguration);
+  timelineGraph.Zoom = zoomInstance;
   return timelineGraph;
 }
 
