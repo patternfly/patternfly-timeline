@@ -1,7 +1,7 @@
 patternfly-timeline
 ==========
 
-A time based / event series interactive visualization using d3.js. Use drag and zoom to navigate in time.
+A time based/event series interactive visualization using d3.js. Use drag and zoom to navigate in time.
 
 ## Usage
 
