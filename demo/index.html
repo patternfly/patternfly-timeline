@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="../node_modules/patternfly/dist/css/patternfly.min.css" />
-  <link rel="stylesheet" href="../node_modules/patternfly/dist/css/patternfly-additions.min.css" />
-  <link rel="stylesheet" href="../node_modules/patternfly/node_modules/c3/c3.css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/patternfly/3.9.0/css/patternfly.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/patternfly/3.9.0/css/patternfly-additions.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css" media="all">
   <link rel="stylesheet" href="../dist/timeline.css">
   <link rel="stylesheet" href="../demo/style.css">
 </head>
@@ -13,55 +13,52 @@
 <body>
   <div class="container">
     <br/>
-    <br/>
-    <br/>
-    <br/>
 
     <div class="row">
-      <select id="timeline-selectpicker" class="selectpicker" multiple></select>
-      <!-- <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" id="range-dropdown" type="button" data-toggle="dropdown">
-                        1 Month
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='one_hour'>1 Hour</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='one_day'>1 Day</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='one_week'>1 Week</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='one_month'>1 Month</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" id="position-dropdown" type="button" data-toggle="dropdown">ending <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu2">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='centered'>centered</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='starting'>starting</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id='ending'>ending</a></li>
-                    </ul>
-                </div>
-                <div id="datepicker" class="input-group date">
-                  <input type="text" class="form-control bootstrap-datepicker" readonly><span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                </div> -->
+      <select id="timeline-selectpicker" class="selectpicker pull-left" multiple></select>
+      <div class="dropdown pull-left">
+        <button class="btn btn-default dropdown-toggle" id="range-dropdown" type="button" data-toggle="dropdown">
+          1 Month
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="one_hour">1 Hour</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="one_day">1 Day</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="one_week">1 Week</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="one_month">1 Month</a></li>
+        </ul>
+      </div>
+      <div class="dropdown pull-left">
+        <button class="btn btn-default dropdown-toggle" id="position-dropdown" type="button" data-toggle="dropdown">ending <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu2">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="centered">centered</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="starting">starting</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ending">ending</a></li>
+        </ul>
+      </div>
+      <div id="datepicker" class="input-group date pull-left">
+        <input type="text" class="form-control bootstrap-datepicker" readonly><span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+      </div>
     </div>
     <div class="row">
       <div id="pf-timeline"></div>
     </div>
     <br/>
-    <div class='well'>
+    <div class="well">
       <div style="text-align: center" id="legend"></div>
     </div>
   </div>
 </body>
 
-<script src="../node_modules/patternfly/node_modules/jquery/dist/jquery.js"></script>
-<script src="../node_modules/patternfly/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="../node_modules/patternfly/node_modules/bootstrap-select/dist/js/bootstrap-select.js"></script>
-<script src="../node_modules/patternfly/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
-<script src="../node_modules/d3/d3.min.js"></script>
-<script src="../node_modules/patternfly/node_modules/c3/c3.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 <script src="../dist/timeline.js"></script>
-<script src="../node_modules/patternfly/dist/js/patternfly.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/patternfly/3.9.0/js/patternfly.min.js"></script>
 <script src="../demo/data.js"></script>
 
 <!-- external file containing json object for data -->

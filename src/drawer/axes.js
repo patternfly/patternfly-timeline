@@ -1,32 +1,24 @@
 import xAxis from '../xAxis';
-import {
-  // drawTopAxis,
-  drawBottomAxis
-} from './xAxis';
-
-// const boolOrReturnValue = (x, data) => typeof x === 'function' ? x(data) : x;
 
 export default (axesContainer, scales, configuration, dimensions) => data => {
-  const axis = orientation => {
-    const selection = axesContainer.selectAll(`.x-axis.${orientation}`).data([{}]);
+  const axis = (scope, scale) => {
+    const selection = axesContainer.selectAll(`.x-axis.${scope}`).data([{}]);
 
     selection.enter()
       .append('g')
       .classed('x-axis', true)
-      .classed(orientation, true)
-      .call(xAxis(scales.x, configuration, orientation))
-      .attr('transform', `translate(0,${orientation === 'bottom' ? dimensions.height : 0})`);
+      .classed(scope, true)
+      .call(xAxis(scale, configuration))
+      .attr('transform', `translate(0,${scope === 'focus' ? dimensions.height: dimensions.height + dimensions.ctxHeight + 30})`);
 
-    selection.call(xAxis(scales.x, configuration, orientation));
+    selection.call(xAxis(scale, configuration));
 
     selection.exit().remove();
   };
 
-  // if (boolOrReturnValue(configuration.hasTopAxis, data)) {
-  //   axis('top');
-  // }
+  axis('focus', scales.x);
 
-  // if (boolOrReturnValue(configuration.hasBottomAxis, data)) {
-    axis('bottom');
-  // }
+  if (configuration.context) {
+    axis('context', scales.ctx);
+  }
 };

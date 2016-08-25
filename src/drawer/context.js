@@ -1,69 +1,66 @@
 import d3 from 'd3';
 
-export default (contextContainer, scales, dimensions, configuration) => data => {
+export default (svg, scales, dimensions, configuration, data) => {
 
-  var counts = [];
-  var roundTo = 86400000;
-  var brush = d3.svg.brush()
+  const contextContainer = svg.append("g")
+    .classed('context', true)
+    .attr('width', dimensions.width)
+    .attr('height', dimensions.ctxHeight)
+    .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 30})`);
+
+  let counts = [];
+  let roundTo = 60000;
+  let brush = d3.svg.brush()
   .x(scales.ctx)
+  .extent(scales.x.domain())
   .on("brush", brushed);
 
-  var xAxis = d3.svg.axis() // move into xaxis file
-      .scale(scales.ctx)
-      .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-    .scale(scales.cty)
-    .orient("left");
-
-  var area = d3.svg.area()
-    .interpolate("monotone")
-    .x(function(d) { return d.date; })
-    .y0(dimensions.ctxHeight)
-    .y1(function(d) { return d.count; });
-
-
   countEvents(data, roundTo, counts);
+  counts.sort((a,b) => {
+    if(a.date < b.date) {
+        return -1;
+    }
+    if(a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  });
+  scales.cty.domain([0, d3.max(counts, (d) => {return d.count;})]);
 
-  // scales.cty.domain();
 
-  contextContainer.append("path")
+  let area = d3.svg.area()
+  .interpolate("step")
+  .x( d => { return scales.ctx(d.date); })
+  .y0(dimensions.ctxHeight)
+  .y1( d => { return scales.cty(d.count); });
+
+  const context = contextContainer
+    .append("path")
     .datum(counts)
     .attr("class", "area")
     .attr("d", area);
 
-
   contextContainer.append("g")
-    .attr("class", "x-axis")
-    .attr("transform", "translate(0," + (dimensions.ctxHeight - 20) + ")")
-    .call(xAxis);
-
-  // contextContainer.append("g")
-  //   .attr("class", "x brush")
-  //   .call(brush)
-  // .selectAll("rect")
-  //   .attr("y", -6)
-  //   .attr("height", dimensions.ctxHeight + 7);
+    .attr("class", "pf-timeline-brush")
+    .call(brush)
+  .selectAll("rect")
+    .attr("height", dimensions.ctxHeight);
 
 
   function brushed() {
     scales.x.domain(brush.empty() ? scales.ctx.domain() : brush.extent());
-    focus.select(".area").attr("d", area);
-
-    // focus.select(".x.axis").call(xAxis);
-    // Reset zoom scale's domain
-  //   zoom.x(x);
   }
+
   function countEvents(data, toRoundTo, counts) {
-    var temp = {};
-    for(var i in data) {
-      for (var j in data[i].data) {
-        var rounded = Math.floor(data[i].data[j].date / toRoundTo) * toRoundTo;
+    let temp = {};
+    for(let i in data) {
+      for (let j in data[i].data) {
+        let rounded = Math.floor(data[i].data[j].date / toRoundTo) * toRoundTo;
         temp[rounded] = temp[rounded] + 1 || 1;
       }
     }
-    for(var k in temp) {
-      var tempDate = new Date();
+    for(let k in temp) {
+      let tempDate = new Date();
       tempDate.setTime(+k);
       counts.push({'date': tempDate, 'count': temp[k]});
     }
