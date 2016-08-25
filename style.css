@@ -75,7 +75,7 @@ text.drop:hover {
   opacity: .7;
 }
 
-.brush .extent {
+.pf-timeline-brush .extent {
   stroke: #fff;
   fill-opacity: .125;
   shape-rendering: crispEdges;
@@ -88,6 +88,11 @@ text.drop:hover {
 
 .pf-timeline-zoom {
   position:absolute;
+}
+
+.context .area {
+  fill: #8b8d8f;
+  shape-rendering: crispEdges;
 }
 
 #pf-timeline-slider {

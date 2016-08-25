@@ -1,6 +1,6 @@
 import d3 from 'd3';
 
-export default class zoomer {
+export default class zoom {
 
   constructor() {
   }
@@ -17,6 +17,15 @@ export default class zoomer {
     this.scales = scales;
     this.configuration = configuration;
     this.data = data;
+    this.callback = callback;
+    this.sliderScale = d3.scale.log()
+        .domain([configuration.minScale, configuration.maxScale])
+        .range([configuration.minScale, configuration.maxScale])
+        .base(2);
+    this.zoom = d3.behavior.zoom()
+        .size([dimensions.width, dimensions.height])
+        .scaleExtent([configuration.minScale, configuration.maxScale])
+        .x(scales.x);
 
     if (configuration.slider) {
 
@@ -26,7 +35,7 @@ export default class zoomer {
           .attr('id', 'zoom-in')
           .style('top', `${configuration.padding.top}px`)
           .style('right', `${configuration.padding.right}px`)
-          .on('click', this.zoomClick);
+          .on('click', this.zoomClick(this));
       zoomIn.append('i')
           .attr('class', 'fa fa-plus');
 
@@ -36,9 +45,9 @@ export default class zoomer {
           .attr('id', 'zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
           .style('right', `${configuration.padding.right}px`)
-          .on('click', this.zoomClick);
+          .on('click', this.zoomClick(this));
       zoomOut.append('i')
-          .attr('class', 'fa fa-minus');
+        .attr('class', 'fa fa-minus');
 
       const zoomSlider = container.append('input')
           .attr('type', 'range')
@@ -47,106 +56,82 @@ export default class zoomer {
           .style('width', `${dimensions.height - (zoomIn.node().offsetHeight * 2)}px`)
           .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - 7}px`)
           .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight) / 2 + zoomIn.node().offsetWidth}px`)
-          .attr('value', 1)
-          .attr('min', 1)
-          .attr('max', 720)
-          .attr('step', .5)
-          .on('input', this.slided);
+          .attr('value', this.sliderScale(this.zoom.scale()))
+          .attr('min', configuration.minScale)
+          .attr('max', configuration.maxScale)
+          .attr('step', 0.1)
+          .on('input', this.zoomClick(this));
     }
 
-    this.zoom = d3.behavior.zoom()
-      .size([dimensions.width, dimensions.height])
-      .scaleExtent([configuration.minScale, configuration.maxScale])
-      .x(scales.x)
-      .on('zoom', () => {
-        requestAnimationFrame(() => callback(data));
-        // zoomSlider.property('value', zoom.scale());
-      });
 
     if (configuration.eventZoom) {
       this.zoom.on('zoomend', configuration.eventZoom);
     }
 
-    // if (configuration.brushZoom) {
-    //   return container.call(zoom)
-    //     .on("dblclick.zoom", null)
-    //     .on('mousemove', () => {
-    //       var m = d3.mouse(container[0][0]);
-    //       var pt = [m[0] - 205, m[1]];
-    //       zoom.center(pt);
-    //     })
-    //     .on("mousedown.zoom", null);
-    // }
-
+    this.zoom.on('zoom', () => {
+      requestAnimationFrame(() => callback(data));
+      if(configuration.slider) {
+        zoomSlider.property('value', this.sliderScale(zoom.scale()));
+      }
+      if(configuration.context) {
+        const contextBrush = d3.select('.pf-timeline-brush');
+        zoom.on('zoom', () => {
+          requestAnimationFrame(() => callback(data));
+          contextBrush.extent(scales.x.domain());
+        });
+      }
+    });
     return this.grid.call(this.zoom)
       .on("dblclick.zoom", null);
-
-    // .on('mousemove', () => {
-    //   var m = d3.mouse(grid[0][0]);
-    //   var pt = [m[0] - 205, m[1]];
-    //   zoom.center(pt);
-    // });
   }
 
-  slided(d) {
-    var center = dimensions.width / 2,
-        translate0,
-        l,
-        view = {
-          x: zoom.translate()[0],
-          k: zoom.scale()
-        };
+  zoomClick(that) {
+    let factor = 0.5,
+      target_zoom = 1,
+      duration = 0,
+      center = that.dimensions.width / 2,
+      extent = that.zoom.scaleExtent(),
+      translate0,
+      l,
+      view = {
+        x: that.zoom.translate()[0],
+        k: that.zoom.scale()
+      };
 
-    d3.event.preventDefault();
+    switch (this.id) {
+      case 'zoom-in':
+        target_zoom = that.zoom.scale() * (1 + factor);
+        duration = 100;
+        break;
+      case 'zoom-out':
+        target_zoom = that.zoom.scale() * (1 + factor * -1);
+        duration = 100;
+        break;
+      case 'pf-timeline-slider':
+        target_zoom = that.sliderScale.invert(this.value);
+        break;
+      default:
+        target_zoom = that.zoom.scale();
+    }
+
+    if (target_zoom < extent[0]) {
+      target_zoom = extent[0];
+    } else if (target_zoom > extent[1]) {
+      target_zoom = extent[1];
+    }
 
     translate0 = (center - view.x) / view.k;
-    view.k = d3.select(this).property("value");
+    view.k = target_zoom;
     l = translate0 * view.k + view.x;
 
     view.x += center - l;
-    this.interpolateZoom([view.x, 0], view.k, 0);
+    interpolateZoom([view.x, 0], view.k, 0);
   }
-
-
-  zoomClick(factor = .5) {
-    var clicked = d3.event.target,
-        direction = 1,
-        target_zoom = 1,
-        center = [dimensions.width / 2, dimensions.height / 2],
-        extent = this.zoom.scaleExtent(),
-        translate = this.zoom.translate(),
-        translate0 = [],
-        l = [],
-        view = {
-          x: translate[0],
-          y: translate[1],
-          k: this.zoom.scale()
-        };
-
-    d3.event.preventDefault();
-    direction = (this.id === 'zoom-in') ? 1 : -1;
-    target_zoom = this.zoom.scale() * (1 + factor * direction);
-
-    if (target_zoom < extent[0]) {
-      target_zoom = extent[0]
-    } else if (target_zoom > extent[1]) {
-      target_zoom = extent[1]
-    }
-
-    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-    view.k = target_zoom;
-    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-
-    view.x += center[0] - l[0];
-    view.y += center[1] - l[1];
-    this.interpolateZoom([view.x, view.y], view.k, 100);
-  }
-
 
   interpolateZoom(translate, scale, duration) {
     return d3.transition().duration(duration).tween("zoom", () => {
       if(this.zoom) {
-        var iTranslate = d3.interpolate(this.zoom.translate(), translate),
+        let iTranslate = d3.interpolate(this.zoom.translate(), translate),
           iScale = d3.interpolate(this.zoom.scale(), scale);
         return (t) => {
           this.zoom
@@ -172,7 +157,7 @@ export default class zoomer {
      console.log(time);
      console.log(datepicker.datepicker('getDate'));
      */
-    var range = this.getRange(this.scales.x.domain()),
+    let range = this.getRange(this.scales.x.domain()),
         relation = document.getElementById('position-dropdown').innerHTML,
         width = this.dimensions.width,
         extent = this.zoom.scaleExtent(),
@@ -235,8 +220,6 @@ export default class zoomer {
     } else if (relation == "centered") {
       time = new Date(time - range / 2);
       //             translate = -1 * (width * target_zoom);
-    } else if (relation == "starting") {
-      //             translate = (width / 2) - (width * target_zoom);
     }
 
     translate += (target_zoom * width * this.zoom.scale() / this.getRange(this.scales.x.domain())) * this.getRange([time, this.scales.x.domain()[0]]);

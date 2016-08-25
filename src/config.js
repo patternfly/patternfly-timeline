@@ -15,7 +15,7 @@ const config = {
   },
   labelWidth: 140,
   sliderWidth: 30,
-  contextHeight: 80,
+  contextHeight: 50,
   locale: null,
   axisFormat: null,
   tickFormat: [
@@ -58,7 +58,7 @@ const config = {
   zoomable: true,
   marker: true,
   context: false,
-  slider: true
+  slider: false
 };
 
 config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');
