@@ -49,23 +49,4 @@ describe('d3.chart.timeline', () => {
 
         expect(div.querySelectorAll('.drop').length).toBe(3);
     });
-
-    it('should enable zoom only if `zoomable` configuration property is true', () => {
-        const zoom = require('../../src/zoom');
-        const data = [ { name: 'foo', data: [ {date:new Date()} ] }];
-
-        const test = (zoomable, expectedZoomableBehavior) => {
-            zoom.default = jasmine.createSpy();
-
-            const div = document.createElement('div');
-
-            const chart = d3.chart.timeline().zoomable(zoomable);
-            d3.select(div).datum(data).call(chart);
-
-            expect(zoom.default.calls.any()).toBe(expectedZoomableBehavior);
-        };
-
-        test(false, false);
-        test(true, true);
-    });
 });

@@ -5,7 +5,7 @@ export default class zoom {
   constructor() {
   }
 
-  updateZoom (container, dimensions, scales, configuration, data, callback) {
+  updateZoom(container, dimensions, scales, configuration, data, callback) {
     this.ONE_MINUTE = 60 * 1000;
     this.ONE_HOUR = this.ONE_MINUTE * 60;
     this.ONE_DAY = this.ONE_HOUR * 24;
@@ -28,7 +28,6 @@ export default class zoom {
         .x(scales.x);
 
     if (configuration.slider) {
-
       const zoomIn = container.append('button')
           .attr('type', 'button')
           .attr('class', 'btn btn-default pf-timeline-zoom')

@@ -55,9 +55,8 @@ const config = {
     tooltip = tooltip + 'Date: ' + d.date;
     return tooltip;
   },
-  zoomable: true,
   marker: true,
-  context: false,
+  context: true,
   slider: false
 };
 
