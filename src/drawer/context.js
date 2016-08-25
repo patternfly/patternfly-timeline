@@ -6,7 +6,7 @@ export default (svg, scales, dimensions, configuration, data) => {
     .classed('context', true)
     .attr('width', dimensions.width)
     .attr('height', dimensions.ctxHeight)
-    .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 25})`);
+    .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 30})`);
 
   let counts = [];
   let roundTo = 60000;
