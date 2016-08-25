@@ -16,13 +16,9 @@ export default (axesContainer, scales, configuration, dimensions) => data => {
     selection.exit().remove();
   };
 
-  // if (boolOrReturnValue(configuration.hasTopAxis, data)) {
-    axis('focus', scales.x);
-  // }
+  axis('focus', scales.x);
 
-  // if (boolOrReturnValue(configuration.hasBottomAxis, data)) {
   if (configuration.context) {
     axis('context', scales.ctx);
   }
-  // }
 };

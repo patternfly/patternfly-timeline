@@ -9,7 +9,7 @@ import Zoom from './zoom';
 
 function timeline(config = {}) {
   const finalConfiguration = {...defaultConfig, ...config};
-  var zoomInstance = new Zoom();
+  let zoomInstance = new Zoom();
 
   const yScale = (data) => {
     return d3.scale.ordinal()
@@ -42,7 +42,6 @@ function timeline(config = {}) {
         x: xScale(dimensions.width, [finalConfiguration.start, finalConfiguration.end]),
         y: yScale(data),
         ctx: xScale(dimensions.width, [d3.min(getDates(data)), finalConfiguration.end]),
-        // ctx: xScale(dimensions.width, [finalConfiguration.start, finalConfiguration.end]),
         cty: d3.scale.linear().range([dimensions.ctxHeight, 0])
       };
 
@@ -77,7 +76,7 @@ d3.chart.timeline = timeline;
 module.exports = timeline;
 
 function getDates(data) {
-  let toReturn = []
+  let toReturn = [];
   for (let i = 0; i < data.length; i++){
     for (let j = 0; j < data[i].data.length; j++){
       toReturn.push(data[i].data[j].date);

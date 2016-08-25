@@ -57,8 +57,8 @@ const config = {
   },
   zoomable: true,
   marker: true,
-  context: true,
-  slider: true
+  context: false,
+  slider: false
 };
 
 config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');

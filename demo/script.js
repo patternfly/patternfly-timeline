@@ -27,7 +27,7 @@ for (var x in json) { //json lives in external file for testing
     data[x].data[y].date = new Date(json[x].data[y].date);
     data[x].data[y].details = json[x].data[y].details;
   }
-  $('#timeline-selectpicker').append("<option>" + data[x].name + "</option>")
+  $('#timeline-selectpicker').append("<option>" + data[x].name + "</option>");
   data[x].display = true;
 }
 $('#timeline-selectpicker').selectpicker('selectAll');

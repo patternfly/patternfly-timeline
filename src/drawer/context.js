@@ -25,14 +25,14 @@ export default (svg, scales, dimensions, configuration, data) => {
     }
     return 0;
   });
-  scales.cty.domain([0, d3.max(counts, (d) => {return d.count})]);
+  scales.cty.domain([0, d3.max(counts, (d) => {return d.count;})]);
 
 
   let area = d3.svg.area()
   .interpolate("step")
-  .x( d => { return scales.ctx(d.date) })
+  .x( d => { return scales.ctx(d.date); })
   .y0(dimensions.ctxHeight)
-  .y1( d => { return scales.cty(d.count) });
+  .y1( d => { return scales.cty(d.count); });
 
   const context = contextContainer
     .append("path")
@@ -49,11 +49,6 @@ export default (svg, scales, dimensions, configuration, data) => {
 
   function brushed() {
     scales.x.domain(brush.empty() ? scales.ctx.domain() : brush.extent());
-
-
-    // focus.select(".x.axis").call(xAxis);
-    // Reset zoom scale's domain
-    // zoom.x(x);
   }
 
   function countEvents(data, toRoundTo, counts) {
