@@ -6,14 +6,11 @@ export default (svg, scales, dimensions, configuration, data) => {
     .classed('context', true)
     .attr('width', dimensions.width)
     .attr('height', dimensions.ctxHeight)
-    .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 30})`);
+    .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 40})`);
 
   let counts = [];
-  let roundTo = 60000;
-  let brush = d3.svg.brush()
-  .x(scales.ctx)
-  .extent(scales.x.domain())
-  .on("brush", brushed);
+  let roundTo = 60000;//one hour
+
 
   countEvents(data, roundTo, counts);
   counts.sort((a,b) => {
@@ -26,7 +23,6 @@ export default (svg, scales, dimensions, configuration, data) => {
     return 0;
   });
   scales.cty.domain([0, d3.max(counts, (d) => {return d.count;})]);
-
 
   let area = d3.svg.area()
   .interpolate("step")
@@ -41,15 +37,7 @@ export default (svg, scales, dimensions, configuration, data) => {
     .attr("d", area);
 
   contextContainer.append("g")
-    .attr("class", "pf-timeline-brush")
-    .call(brush)
-  .selectAll("rect")
-    .attr("height", dimensions.ctxHeight);
-
-
-  function brushed() {
-    scales.x.domain(brush.empty() ? scales.ctx.domain() : brush.extent());
-  }
+    .attr("class", "pf-timeline-brush");
 
   function countEvents(data, toRoundTo, counts) {
     let temp = {};
