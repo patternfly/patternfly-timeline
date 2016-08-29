@@ -57,7 +57,7 @@ const config = {
   },
   marker: true,
   context: true,
-  slider: false
+  slider: true
 };
 
 config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');
