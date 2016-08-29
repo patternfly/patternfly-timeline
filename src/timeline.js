@@ -28,7 +28,7 @@ function timeline(config = {}) {
       d3.select(this).select('.pf-timeline-chart').remove();
       d3.select(this).selectAll('.pf-timeline-zoom').remove();
 
-      const SCALEHEIGHT = 30;
+      const SCALEHEIGHT = 40;
       let outer_width = finalConfiguration.width || selection.node().clientWidth;
       const height = data.length * finalConfiguration.lineHeight;
 
@@ -55,11 +55,11 @@ function timeline(config = {}) {
 
       draw(data);
 
-      zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
-
       if (finalConfiguration.context) {
         context(svg, scales, dimensions, finalConfiguration, data);
       }
+      zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
+
     });
   }
 

@@ -76,7 +76,7 @@ text.drop:hover {
 }
 
 .pf-timeline-brush .extent {
-  stroke: #d1d1d1;
+  stroke: none;
   fill: #0088ce;
   fill-opacity: .25;
   shape-rendering: crispEdges;
@@ -92,7 +92,7 @@ text.drop:hover {
 }
 
 .context .area {
-  fill: #8b8d8f;
+  fill: #d1d1d1;
   shape-rendering: crispEdges;
 }
 

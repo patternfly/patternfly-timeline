@@ -50,7 +50,7 @@
   "scripts": {
     "test": "karma start test/karma/karma.conf.js --single-run",
     "build": "webpack -p --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress --devtool source-map",
-    "start": "webpack-dev-server --colors --inline --devtool cheap-module-inline-source-map --host=0.0.0.0"
+    "start": "webpack-dev-server --colors --inline --devtool source-map --host=0.0.0.0"
   },
   "author": "Chris Shinn <cshinn@redhat.com> (https://github.com/cshinn)",
   "license": "MIT"

@@ -26,6 +26,7 @@ export default class zoom {
         .size([dimensions.width, dimensions.height])
         .scaleExtent([configuration.minScale, configuration.maxScale])
         .x(scales.x);
+    let brush = null;
 
     if (configuration.slider) {
       const zoomIn = container.append('button')
@@ -34,9 +35,10 @@ export default class zoom {
           .attr('id', 'zoom-in')
           .style('top', `${configuration.padding.top}px`)
           .style('right', `${configuration.padding.right}px`)
-          .on('click', this.zoomClick(this));
+          .on('click', () => {this.zoomClick()});
       zoomIn.append('i')
-          .attr('class', 'fa fa-plus');
+          .attr('class', 'fa fa-plus')
+          .attr('id', 'zoom-in-icon');
 
       const zoomOut = container.append('button')
           .attr('type', 'button')
@@ -44,9 +46,10 @@ export default class zoom {
           .attr('id', 'zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
           .style('right', `${configuration.padding.right}px`)
-          .on('click', this.zoomClick(this));
+          .on('click', () => {this.zoomClick()});
       zoomOut.append('i')
-        .attr('class', 'fa fa-minus');
+        .attr('class', 'fa fa-minus')
+        .attr('id', 'zoom-out-icon');
 
       const zoomSlider = container.append('input')
           .attr('type', 'range')
@@ -59,7 +62,23 @@ export default class zoom {
           .attr('min', configuration.minScale)
           .attr('max', configuration.maxScale)
           .attr('step', 0.1)
-          .on('input', this.zoomClick(this));
+          .on('input', () => {this.zoomClick()});
+    }
+
+    if(configuration.context) {
+      brush = d3.svg.brush()
+        .x(scales.ctx)
+        .extent(scales.x.domain())
+        .on("brush", brushed);
+
+      container.select('.pf-timeline-brush')
+        .call(brush)
+        .selectAll("rect")
+          .attr("height", dimensions.ctxHeight);
+
+        function brushed() {
+          scales.x.domain(brush.empty() ? scales.ctx.domain() : brush.extent());
+        }
     }
 
 
@@ -70,47 +89,45 @@ export default class zoom {
     this.zoom.on('zoom', () => {
       requestAnimationFrame(() => callback(data));
       if(configuration.slider) {
-        zoomSlider.property('value', this.sliderScale(zoom.scale()));
+        container.select('#pf-timeline-slider').property('value', this.sliderScale(this.zoom.scale()));
       }
       if(configuration.context) {
-        const contextBrush = d3.select('.pf-timeline-brush');
-        zoom.on('zoom', () => {
-          requestAnimationFrame(() => callback(data));
-          contextBrush.extent(scales.x.domain());
-        });
+        brush.extent(this.scales.x.domain());
+        container.select('.pf-timeline-brush').call(brush);
       }
     });
     return this.grid.call(this.zoom)
       .on("dblclick.zoom", null);
   }
 
-  zoomClick(that) {
+  zoomClick() {
     let factor = 0.5,
       target_zoom = 1,
       duration = 0,
-      center = that.dimensions.width / 2,
-      extent = that.zoom.scaleExtent(),
+      center = this.dimensions.width / 2,
+      extent = this.zoom.scaleExtent(),
       translate0,
       l,
       view = {
-        x: that.zoom.translate()[0],
-        k: that.zoom.scale()
+        x: this.zoom.translate()[0],
+        k: this.zoom.scale()
       };
-
-    switch (this.id) {
+    switch (event.target.id) {
+      case 'zoom-in-icon':
       case 'zoom-in':
-        target_zoom = that.zoom.scale() * (1 + factor);
+        target_zoom = this.zoom.scale() * (1 + factor);
         duration = 100;
         break;
+      case 'zoom-out-icon':
       case 'zoom-out':
-        target_zoom = that.zoom.scale() * (1 + factor * -1);
+        target_zoom = this.zoom.scale() * (1 + factor * -1);
         duration = 100;
         break;
       case 'pf-timeline-slider':
-        target_zoom = that.sliderScale.invert(this.value);
+        target_zoom = this.sliderScale.invert(event.target.value);
         break;
       default:
-        target_zoom = that.zoom.scale();
+        target_zoom = this.zoom.scale();
     }
 
     if (target_zoom < extent[0]) {
@@ -124,7 +141,7 @@ export default class zoom {
     l = translate0 * view.k + view.x;
 
     view.x += center - l;
-    interpolateZoom([view.x, 0], view.k, 0);
+    this.interpolateZoom([view.x, 0], view.k, duration);
   }
 
   interpolateZoom(translate, scale, duration) {
@@ -152,57 +169,57 @@ export default class zoom {
 
   zoomFilter(time, timeframe) {
     /*
-     time = time || scales.x.domain()[0];
-     console.log(time);
-     console.log(datepicker.datepicker('getDate'));
-     */
+    time = time || scales.x.domain()[0];
+    console.log(time);
+    console.log(datepicker.datepicker('getDate'));
+    */
     let range = this.getRange(this.scales.x.domain()),
-        relation = document.getElementById('position-dropdown').innerHTML,
-        width = this.dimensions.width,
-        extent = this.zoom.scaleExtent(),
-        translate = this.zoom.translate()[0],
-        target_zoom = this.zoom.scale();
+    relation = document.getElementById('position-dropdown').innerHTML,
+    width = this.dimensions.width,
+    extent = this.zoom.scaleExtent(),
+    translate = this.zoom.translate()[0],
+    target_zoom = this.zoom.scale();
 
     relation = relation.substr(0, relation.indexOf('<') - 1);
     switch (timeframe) {
       case 'one_hour':
-        range = this.ONE_HOUR;
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      range = this.ONE_HOUR;
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'one_day':
-        range = this.ONE_DAY;
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      range = this.ONE_DAY;
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'one_week':
-        range = this.ONE_WEEK;
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      range = this.ONE_WEEK;
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'one_month':
-        range = this.ONE_MONTH;
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      range = this.ONE_MONTH;
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'ending':
-        relation = "ending";
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      relation = "ending";
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'starting':
-        relation = "starting";
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      relation = "starting";
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'centered':
-        relation = "centered";
-        //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-        break;
+      relation = "centered";
+      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
+      break;
 
       case 'datepicker':
-        //                 time = time.date;
-        //                 relation = "same";
+      //                 time = time.date;
+      //                 relation = "same";
     }
 
     target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range);
@@ -224,4 +241,8 @@ export default class zoom {
     translate += (target_zoom * width * this.zoom.scale() / this.getRange(this.scales.x.domain())) * this.getRange([time, this.scales.x.domain()[0]]);
     this.interpolateZoom([translate, 0], target_zoom, 100);
   }
+
+
+
+
 }
