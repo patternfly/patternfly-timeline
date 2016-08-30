@@ -1,7 +1,6 @@
 import d3 from 'd3';
 
 const config = {
-  lineHeight: 40,
   start: new Date(0),
   end: new Date(),
   minScale: 0,
@@ -13,6 +12,7 @@ const config = {
     bottom: 40,
     right: 40
   },
+  lineHeight: 40,
   labelWidth: 140,
   sliderWidth: 30,
   contextHeight: 50,

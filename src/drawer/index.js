@@ -19,7 +19,7 @@ export default (svg, dimensions, scales, configuration) => {
   const pattern = defs.append('pattern')
     .attr('id', 'grid-stripes')
     .attr('width', dimensions.width)
-    .attr('height', (configuration.lineHeight)*2)
+    .attr('height', (configuration.lineHeight) * 2)
     .attr('patternUnits', 'userSpaceOnUse');
   pattern.append('rect')
     .attr('width', dimensions.width)
