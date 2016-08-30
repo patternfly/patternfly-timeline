@@ -26,7 +26,7 @@ export default class zoom {
         .size([dimensions.width, dimensions.height])
         .scaleExtent([configuration.minScale, configuration.maxScale])
         .x(scales.x);
-    let brush = null;
+    this.brush = null;
 
     if (configuration.slider) {
       const zoomIn = container.append('button')
@@ -66,19 +66,15 @@ export default class zoom {
     }
 
     if(configuration.context) {
-      brush = d3.svg.brush()
+      this.brush = d3.svg.brush()
         .x(scales.ctx)
         .extent(scales.x.domain())
-        .on("brush", brushed);
+        .on("brush", () => {this.brushed()});
 
       container.select('.pf-timeline-brush')
-        .call(brush)
+        .call(this.brush)
         .selectAll("rect")
           .attr("height", dimensions.ctxHeight);
-
-        function brushed() {
-          scales.x.domain(brush.empty() ? scales.ctx.domain() : brush.extent());
-        }
     }
 
 
@@ -92,12 +88,19 @@ export default class zoom {
         container.select('#pf-timeline-slider').property('value', this.sliderScale(this.zoom.scale()));
       }
       if(configuration.context) {
-        brush.extent(this.scales.x.domain());
-        container.select('.pf-timeline-brush').call(brush);
+        this.brush.extent(this.scales.x.domain());
+        container.select('.pf-timeline-brush').call(this.brush);
       }
     });
     return this.grid.call(this.zoom)
       .on("dblclick.zoom", null);
+  }
+
+  brushed() {
+    if(this.brush.empty() !== true) {
+      let extent = this.brush.extent()
+      this.zoomFilter(extent[0], extent[1], 0);
+    }
   }
 
   zoomClick() {
@@ -167,60 +170,12 @@ export default class zoom {
     return oldRange / newRange;
   }
 
-  zoomFilter(time, timeframe) {
-    /*
-    time = time || scales.x.domain()[0];
-    console.log(time);
-    console.log(datepicker.datepicker('getDate'));
-    */
-    let range = this.getRange(this.scales.x.domain()),
-    relation = document.getElementById('position-dropdown').innerHTML,
-    width = this.dimensions.width,
-    extent = this.zoom.scaleExtent(),
-    translate = this.zoom.translate()[0],
-    target_zoom = this.zoom.scale();
-
-    relation = relation.substr(0, relation.indexOf('<') - 1);
-    switch (timeframe) {
-      case 'one_hour':
-      range = this.ONE_HOUR;
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'one_day':
-      range = this.ONE_DAY;
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'one_week':
-      range = this.ONE_WEEK;
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'one_month':
-      range = this.ONE_MONTH;
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'ending':
-      relation = "ending";
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'starting':
-      relation = "starting";
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'centered':
-      relation = "centered";
-      //this.parentElement.parentElement.previousElementSibling.innerHTML = this.innerHTML + ' <span class="caret"></span>';
-      break;
-
-      case 'datepicker':
-      //                 time = time.date;
-      //                 relation = "same";
-    }
+  zoomFilter(fromTime, toTime, duration = 100) {
+    let range = toTime - fromTime,
+        width = this.dimensions.width,
+        extent = this.zoom.scaleExtent(),
+        translate = this.zoom.translate()[0],
+        target_zoom = this.zoom.scale();
 
     target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range);
 
@@ -229,20 +184,8 @@ export default class zoom {
     } else if (target_zoom > extent[1]) {
       target_zoom = extent[1];
     }
-    console.log(time);
-    if (relation == "ending") {
-      time = new Date(time - range);
-      //             translate = width - (width * target_zoom);
-    } else if (relation == "centered") {
-      time = new Date(time - range / 2);
-      //             translate = -1 * (width * target_zoom);
-    }
 
-    translate += (target_zoom * width * this.zoom.scale() / this.getRange(this.scales.x.domain())) * this.getRange([time, this.scales.x.domain()[0]]);
-    this.interpolateZoom([translate, 0], target_zoom, 100);
+    translate += (target_zoom * width * this.zoom.scale() / this.getRange(this.scales.x.domain())) * this.getRange([fromTime, this.scales.x.domain()[0]]);
+    this.interpolateZoom([translate, 0], target_zoom, duration );
   }
-
-
-
-
 }

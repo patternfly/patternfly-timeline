@@ -1,7 +1,7 @@
 patternfly-timeline
 ==========
 
-A time based/event series interactive visualization using d3.js. Use drag and zoom to navigate in time.
+A time based/event series interactive visualization using d3.js. Use drag and zoom to navigate in time. [View the demo here.](https://rawgit.com/patternfly/patternfly-timeline/master-dist/demo/)
 
 ## Usage
 
@@ -23,13 +23,26 @@ d3.select('#chart_placeholder')
   .call(timelineChart);
 ```
 
-The data must be an array of named time series. For instance:
+The data must be an array of named time series with an optional details payload. For instance:
 
 ```js
-var data = [
-  { name: "http requests", dates: [new Date('2014/09/15 13:24:54'), new Date('2014/09/15 13:25:03'), new Date('2014/09/15 13:25:05'), ...] },
-  { name: "SQL queries", dates: [new Date('2014/09/15 13:24:57'), new Date('2014/09/15 13:25:04'), new Date('2014/09/15 13:25:04'), ...] },
-  { name: "cache invalidations", dates: [new Date('2014/09/15 13:25:12'), ...] }
+var json = [
+  {
+    "name":"Power Activity",
+    "data":[
+      {"date": "2016-04-08T15:07:37.374Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-08T15:07:37.374Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-15T21:04:16.247Z", "details": {"event": "vmPowerOn", "object": "vmName"}}
+    ]
+  },
+  {
+    "name":"Alarm/Error",
+    "data":[
+      {"date": "2016-04-21T01:06:19.126Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-16T13:07:15.205Z", "details": {"event": "vmPowerOff", "object": "hostName"}},
+      {"date": "2016-04-07T22:35:41.145Z", "details": {"event": "vmPowerOff", "object": "hostName"}}
+    ]
+  }
 ];
 ```
 
@@ -40,15 +53,19 @@ Patternfly-timeline follows the [d3.js reusable charts pattern](http://bost.ocks
 ```js
 var timelineChart = d3.chart.timeline()
   .width(1200)
-  .hasTopAxis(false);
+  .context(false)
 ```
 
 Configurable values:
 
   - `start`: start date of the scale. Defaults to `new Date(0)`.
   - `end`: end date of the scale. Defaults to `new Date()`
-  - `width`: width of the chart in pixels. Default to 1000px.
-  - `padding`: paddings of the graph in pixels. Defaults to `{ top: 60, left: 200, bottom: 40, right: 50 }`
+  - `minScale`: The minimum scaling (zoom out), default to 0.
+  - `maxScale`: The maximum scaling (zoom in), default to Infinity.
+  - `width`: width of the chart in pixels. Responsive by default.
+  - `padding`: paddings of the graph in pixels. Defaults to `{ top: 30, left: 40, bottom: 40, right: 40 }`
+  - lineHeight: The height of each row in the chart, default to 40.
+  - contextHeight: The height of the context viewport below the char, default to 50.
   - `locale`: locale used for the X axis labels. See [d3.locale](https://github.com/mbostock/d3/wiki/Localization#locale) for the expected format. Defaults to null (i.e. d3 default locale).
   - `axisFormat`: function receiving the d3 axis object, to customize tick number and size.
   - `tickFormat`: tickFormat for the X axis. See [d3.timeFormat.multi()](https://github.com/mbostock/d3/wiki/Time-Formatting#format_multi) for expected format.
@@ -62,16 +79,15 @@ Configurable values:
   - `eventColor`: The color of the event. Accepts a color (color name or `#ffffff` notation), or a function receiving the eventData and returning a color. Defaults to null. EventLineColor will be ignored if this is used.
   - `eventShape`: The shape of the event. Accepts unicode characters, including icon fonts.
   - `eventTooltip`: The contents of the event's tooltip.
-  - `minScale`: The minimum scaling (zoom out), default to 0.
-  - `maxScale`: The maximum scaling (zoom in), default to Infinity.
-  - `zoomable`: *true* by default. Enable zoom-in/zoom-out and dragging handlers.
   - `marker`: *true* by default. Enable current time/date marker under mouse pointer.
+  - `context`: *true* by default. Enable context viewport beneath chart.
+  - `slider`: *true* by default. Enable zoom slider and buttons to right of chart.
 
 ## Styling
 
 You can style all elements of the chart in CSS. Check the source to see the available selectors.
 
-## Extending / Hacking
+## Extending / Development
 
 First, install the dependencies:
 
