@@ -14,7 +14,7 @@ Include the `src/timeline.js` script in your page after d3:
 
 
 
-In the HTML source, create a new timeline chart, bind data to a DOM element, then call the chart on the element.
+In the HTML source, create a new timeline chart, bind data to a DOM element, then call the chart on the element. **Important:** In order for the zoom slider to work correctly, the placeholder element must have position: relative or absolute styling.
 
 ```js
 var timelineChart = d3.chart.timeline();

@@ -6,10 +6,11 @@ export default (svg, scales, dimensions, configuration, data) => {
     .classed('context', true)
     .attr('width', dimensions.width)
     .attr('height', dimensions.ctxHeight)
+    .attr('clip-path', 'url(#context-brush-clipper)')
     .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 40})`);
 
   let counts = [];
-  let roundTo = 60000;//one hour
+  let roundTo = 3600000;//one hour
 
 
   countEvents(data, roundTo, counts);
