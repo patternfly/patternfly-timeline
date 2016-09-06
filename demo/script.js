@@ -9,14 +9,15 @@ $(document).ready(function() {
   });
 });
 
+const ONE_HOUR = 60 * 60 * 1000,
+      ONE_DAY = 24 * ONE_HOUR,
+      ONE_WEEK = 7 * ONE_DAY,
+      ONE_MONTH = 30 * ONE_DAY,
+      SIX_MONTHS = 6 * ONE_MONTH;
+
 var data = [],
   start = new Date('2016-04-14T04:25:27.663Z'),
-  today = new Date('2016-05-03T04:00:00Z'),
-  one_hour = 60 * 60 * 1000,
-  one_day = 24 * 60 * 60 * 1000,
-  one_week = one_day * 7,
-  one_month = one_day * 30,
-  six_months = one_month * 6;
+  today = new Date('2016-05-03T04:00:00Z');
 
 for (var x in json) { //json lives in external file for testing
   data[x] = {};
@@ -34,9 +35,9 @@ $('#timeline-selectpicker').selectpicker('selectAll');
 
 var timeline = d3.chart.timeline()
   .end(today)
-  .start(today - one_week)
-  .minScale(one_week / one_month)
-  .maxScale(one_week / one_hour)
+  .start(today - ONE_WEEK)
+  .minScale(ONE_WEEK / ONE_MONTH)
+  .maxScale(ONE_WEEK / ONE_HOUR)
   .eventColor(function(data, index) {
     if (data.details.event === "vmPowerOff") {
       return "#cc0000";
@@ -101,5 +102,5 @@ $('#datepicker').datepicker({
 //   timeline.Zoom.zoomFilter(time);
 // });
 
-startdate = new Date(today.getTime() - one_month);
+startdate = new Date(today.getTime() - ONE_MONTH);
 $('#datepicker').datepicker('setDate', today);

@@ -16,6 +16,16 @@ export default (svg, dimensions, scales, configuration) => {
       .attr('width', dimensions.width)
       .attr('height', dimensions.height);
 
+  if(configuration.context) {
+    defs.append('clipPath')
+      .attr('id', 'context-brush-clipper')
+      .append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', dimensions.width)
+        .attr('height', dimensions.ctxHeight);
+  }
+
   const pattern = defs.append('pattern')
     .attr('id', 'grid-stripes')
     .attr('width', dimensions.width)
