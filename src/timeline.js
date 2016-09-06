@@ -58,6 +58,7 @@ function timeline(config = {}) {
       if (finalConfiguration.context) {
         context(svg, scales, dimensions, finalConfiguration, data);
       }
+      
       zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
 
     });

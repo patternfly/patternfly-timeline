@@ -175,9 +175,12 @@ export default class zoom {
         width = this.dimensions.width,
         extent = this.zoom.scaleExtent(),
         translate = this.zoom.translate()[0],
-        target_zoom = this.zoom.scale();
+        target_zoom = this.zoom.scale(),
+        scale_translate,
+        cur_width,
+        start_translate;
 
-    target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range);
+    target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range); // new scale is ratio between old and new date ranges
 
     if (target_zoom < extent[0]) {
       target_zoom = extent[0];
@@ -185,7 +188,12 @@ export default class zoom {
       target_zoom = extent[1];
     }
 
-    translate += (target_zoom * width * this.zoom.scale() / this.getRange(this.scales.x.domain())) * this.getRange([fromTime, this.scales.x.domain()[0]]);
-    this.interpolateZoom([translate, 0], target_zoom, duration );
+    scale_translate = target_zoom * width * this.zoom.scale();
+    cur_width = this.getRange(this.scales.x.domain()); // current width of graph in ms
+    start_translate = this.scales.x.domain()[0] - fromTime // difference between leftmost dates in ms
+
+    translate += (scale_translate / cur_width) * start_translate;
+
+    this.interpolateZoom([translate, 0], target_zoom, duration);
   }
 }

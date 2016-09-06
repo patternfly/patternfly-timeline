@@ -9,9 +9,9 @@ export default (axesContainer, scales, configuration, dimensions) => data => {
       .classed('x-axis', true)
       .classed(scope, true)
       .call(xAxis(scale, configuration))
-      .attr('transform', `translate(0,${scope === 'focus' ? dimensions.height: dimensions.height + dimensions.ctxHeight + 40})`);
+      .attr('transform', `translate(0,${scope === 'focus' ? dimensions.height : dimensions.height + dimensions.ctxHeight + 40})`);
 
-    selection.call(xAxis(scale, configuration));
+    selection.call(xAxis(scale, configuration, dimensions.width));
 
     selection.exit().remove();
   };
