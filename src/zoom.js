@@ -98,7 +98,7 @@ export default class zoom {
 
   brushed() {
     if(this.brush.empty() !== true) {
-      let extent = this.brush.extent()
+      let extent = this.brush.extent();
       this.zoomFilter(extent[0], extent[1], 0);
     }
   }
@@ -175,12 +175,16 @@ export default class zoom {
         width = this.dimensions.width,
         extent = this.zoom.scaleExtent(),
         translate = this.zoom.translate()[0],
+        curZoom = this.zoom.scale(),
         target_zoom = this.zoom.scale(),
         scale_translate,
-        cur_width,
-        start_translate;
+        cur_width = this.getRange(this.scales.x.domain()),
+        start_translate,
+        toAdd,
+        roundTo = 3600000;//one hour;
 
     target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range); // new scale is ratio between old and new date ranges
+
 
     if (target_zoom < extent[0]) {
       target_zoom = extent[0];
@@ -188,12 +192,21 @@ export default class zoom {
       target_zoom = extent[1];
     }
 
-    scale_translate = target_zoom * width * this.zoom.scale();
-    cur_width = this.getRange(this.scales.x.domain()); // current width of graph in ms
-    start_translate = this.scales.x.domain()[0] - fromTime // difference between leftmost dates in ms
+    let widthTwoPx = (range * width) / cur_width;
+    let widthDiff = (widthTwoPx - width) * target_zoom;
 
-    translate += (scale_translate / cur_width) * start_translate;
+    let startDiff = (this.scales.x.domain()[0] - fromTime) * (width / cur_width); // difference between leftmost dates in px
 
-    this.interpolateZoom([translate, 0], target_zoom, duration);
+
+    toAdd = startDiff;
+
+    translate = translate * (target_zoom / curZoom); // scale translate value (in px) to new zoom scale
+    translate += toAdd;
+
+    this.zoom
+      .scale(target_zoom)
+      .translate([translate, 0]);
+    this.zoom.event(this.grid);
+
   }
 }
