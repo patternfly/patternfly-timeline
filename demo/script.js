@@ -86,21 +86,70 @@ $(window).on('resize', function() {
   });
 });
 
+
 $('#datepicker').datepicker({
   autoclose: true,
   todayBtn: "linked",
   todayHighlight: true
 });
 
-// d3.selectAll('.zoom-filter > li > a').on('click', function() {
-//   var time = $('#datepicker').datepicker('getDate');
-//   timeline.Zoom.zoomFilter(time, this.id.toLowerCase());
-// });
-//
-// $('#datepicker').on('changeDate', function() {
-//   var time = $('#datepicker').datepicker('getDate');
-//   timeline.Zoom.zoomFilter(time);
-// });
-
-startdate = new Date(today.getTime() - ONE_MONTH);
 $('#datepicker').datepicker('setDate', today);
+
+$('#datepicker').on('changeDate', zoomFilter);
+
+$( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+
+  var $target = $( event.currentTarget );
+    $target.closest( '.dropdown' )
+      .find( '[data-bind="label"]' ).text( $target.text() )
+        .end()
+      .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+    zoomFilter();
+
+    return false;
+
+  });
+
+function zoomFilter() {
+  let range = $('#range-dropdown').find('[data-bind="label"]' ).text(),
+      position = $('#position-dropdown').find('[data-bind="label"]' ).text(),
+      date = $('#datepicker').datepicker('getDate'),
+      startDate,
+      endDate;
+
+  switch (range) {
+    case '1 hour':
+      range = ONE_HOUR;
+      break;
+
+    case '1 day':
+      range = ONE_DAY;
+      break;
+
+    case '1 week':
+      range = ONE_WEEK;
+      break;
+
+    case '1 month':
+      range = ONE_MONTH;
+      break;
+  }
+  switch (position) {
+    case 'centered on':
+      startDate = new Date(date.getTime() - range/2);
+      endDate = new Date(date.getTime() + range/2);
+      break;
+
+    case 'starting':
+      startDate = date;
+      endDate = new Date(date.getTime() + range);
+      break;
+
+    case 'ending':
+      startDate =  new Date(date.getTime() - range);
+      endDate = date;
+      break;
+  }
+  timeline.Zoom.zoomFilter(startDate, endDate);
+}
