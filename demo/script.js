@@ -112,7 +112,7 @@ $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
   });
 
 function zoomFilter() {
-  let range = $('#range-dropdown').find('[data-bind="label"]' ).text(),
+  var range = $('#range-dropdown').find('[data-bind="label"]' ).text(),
       position = $('#position-dropdown').find('[data-bind="label"]' ).text(),
       date = $('#datepicker').datepicker('getDate'),
       startDate,
