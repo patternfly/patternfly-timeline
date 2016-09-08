@@ -153,3 +153,15 @@ function zoomFilter() {
   }
   timeline.Zoom.zoomFilter(startDate, endDate);
 }
+
+$('#reset-button').click(function() {
+  timeline(element);
+  $('[data-toggle="tooltip"]').tooltip({
+    'container': 'body',
+    'placement': 'top',
+    'delay': {
+      "show": 500,
+      "hide": 100
+    }
+  });
+});
