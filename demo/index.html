@@ -12,33 +12,44 @@
 
 <body>
   <div class="container">
-    <br/>
-
-    <div class="row">
-      <select id="timeline-selectpicker" class="selectpicker pull-left" data-live-search="true" multiple></select>
-      <div class="dropdown pull-left">
-        <button class="btn btn-default dropdown-toggle" id="range-dropdown" type="button" data-toggle="dropdown">
-          1 Month
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ONE_HOUR">1 Hour</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ONE_DAY">1 Day</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ONE_WEEK">1 Week</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ONE_MONTH">1 Month</a></li>
-        </ul>
-      </div>
-      <div class="dropdown pull-left">
-        <button class="btn btn-default dropdown-toggle" id="position-dropdown" type="button" data-toggle="dropdown">ending <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu2">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="centered">centered</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="starting">starting</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="ending">ending</a></li>
-        </ul>
-      </div>
-      <div id="datepicker" class="input-group date">
-        <input type="text" class="form-control bootstrap-datepicker"><span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+    <div class="row toolbar-pf">
+      <div class="col-sm-12">
+        <form class="toolbar-pf-actions">
+          <div class="form-group">
+            <select class="selectpicker" id="timeline-selectpicker" data-live-search="true" multiple></select>
+          </div>
+          <div class="form-group">
+            <div class="dropdown pull-left">
+              <button class="btn btn-default dropdown-toggle" id="range-dropdown" data-toggle="dropdown" type="button">
+                <span data-bind="label">1 week</span>&nbsp;
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1 hour</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1 day</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1 week</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1 month</a></li>
+              </ul>
+            </div>
+            <div class="dropdown pull-left">
+              <button class="btn btn-default dropdown-toggle" id="position-dropdown" data-toggle="dropdown" type="button">
+                <span data-bind="label">ending</span>&nbsp;
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu zoom-filter" role="menu" aria-labelledby="dropdownMenu2">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">centered on</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">starting</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">ending</a></li>
+              </ul>
+            </div>
+            <div class="input-group date" id="datepicker">
+              <input type="text" class="form-control bootstrap-datepicker"><span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-default" id="reset-button">reset zoom</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="row">
@@ -59,9 +70,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 <script src="../dist/timeline.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/patternfly/3.9.0/js/patternfly.min.js"></script>
-<script src="../demo/data.js"></script>
 
 <!-- external file containing json object for data -->
+<script src="../demo/data.js"></script>
+
 <script src="../demo/script.js"></script>
 
 </html>
