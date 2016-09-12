@@ -38,19 +38,28 @@ var timeline = d3.chart.timeline()
   .start(today - ONE_WEEK)
   .minScale(ONE_WEEK / ONE_MONTH)
   .maxScale(ONE_WEEK / ONE_HOUR)
-  .eventColor(function(data, index) {
-    if (data.details.event === "vmPowerOff") {
-      return "#cc0000";
-    }
-  })
-  .eventShape(function(data, index) {
-    if (data.details.object === "vmName") {
-      return '\uf111';
-    }
-    return '\uf05c';
-  })
   .eventClick(function(el) {
-      $('#legend').html('Clicked on ' + el.details.object);
+    var table = '<table class="table table-striped table-bordered">';
+    console.log(el);
+    if(el.hasOwnProperty("events")) {
+      table = table + '<thead>This is a group of ' + el.events.length + ' events starting on '+ el.date + '</thead><tbody>';
+      table = table + '<tr><th>Date</th><th>Event</th><th>Object</th></tr>'
+      for (var i = 0; i < el.events.length; i++) {
+        table = table + '<tr><td>' + el.events[i].date + ' </td> ';
+        for (var j in el.events[i].details) {
+          table = table +'<td> ' + el.events[i].details[j] + ' </td> ';
+        }
+        table = table + '</tr>'
+      }
+      table = table + '</tbody>';
+    } else {
+      table = table + 'Date: ' + el.date + '<br>';
+      for (var i in el.details) {
+        table = table + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + el.details[i] + '<br>';
+      }
+    }
+    $('#legend').html(table);
+
   });
 
 var element = d3.select('#pf-timeline').append('div').datum(data.filter(function(eventGroup) {
