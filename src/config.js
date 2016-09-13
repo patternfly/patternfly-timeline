@@ -46,18 +46,29 @@ const config = {
     }
   },
   eventColor: null,
-  eventShape: '\uf111',
+  eventShape: (d) => {
+    if(d.hasOwnProperty("events")) {
+      return '\uf192';
+    } else {
+      return '\uf111';
+    }
+  },
   eventTooltip: (d) => {
     var tooltip = '';
-    for (var i in d.details) {
-      tooltip = tooltip + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + d.details[i] + '\n';
+    if(d.hasOwnProperty("events")) {
+      tooltip = `Group of ${d.events.length} events`
+    } else {
+      for (var i in d.details) {
+        tooltip = tooltip + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + d.details[i] + '\n';
+      }
+      tooltip = tooltip + 'Date: ' + d.date;
     }
-    tooltip = tooltip + 'Date: ' + d.date;
     return tooltip;
   },
   marker: true,
   context: true,
-  slider: true
+  slider: true,
+  eventGrouping: 60000,
 };
 
 config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');

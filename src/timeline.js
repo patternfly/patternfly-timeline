@@ -25,6 +25,9 @@ function timeline(config = {}) {
 
   function timelineGraph(selection) {
     selection.each(function selector(data) {
+
+      data= groupEvents(data, finalConfiguration.eventGrouping);
+
       d3.select(this).select('.pf-timeline-chart').remove();
       d3.select(this).selectAll('.pf-timeline-zoom').remove();
 
@@ -58,7 +61,7 @@ function timeline(config = {}) {
       if (finalConfiguration.context) {
         context(svg, scales, dimensions, finalConfiguration, data);
       }
-      
+
       zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
 
     });
@@ -80,6 +83,36 @@ function getDates(data) {
     for (let j = 0; j < data[i].data.length; j++){
       toReturn.push(data[i].data[j].date);
     }
+  }
+  return toReturn;
+}
+
+function groupEvents(data, toRoundTo) {
+  let rounded,
+      temp = {},
+      toReturn = [];
+
+  for (let i = 0; i < data.length; i++) {
+    toReturn[i] = {};
+    toReturn[i].name = data[i].name;
+    toReturn[i].data = [];
+    for (let j = 0; j < data[i].data.length; j++) {
+      rounded = Math.round(data[i].data[j].date / toRoundTo) * toRoundTo;
+      if (temp[rounded] === undefined) {
+        temp[rounded] = [];
+      }
+      temp[rounded].push(data[i].data[j]);
+    }
+    for (let k in temp) {
+      if (temp[k].length === 1) {
+        toReturn[i].data.push(temp[k][0]);
+      } else {
+        let tempDate = new Date();
+        tempDate.setTime(+k);
+        toReturn[i].data.push({'date': tempDate,'events': temp[k]});
+      }
+    }
+    temp = {};
   }
   return toReturn;
 }

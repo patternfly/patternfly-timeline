@@ -50,6 +50,10 @@ text.drop:hover {
   paint-order: stroke;
 }
 
+text.event-group {
+  font-size: 18px;
+}
+
 .grid {
   stroke: #d1d1d1;
   cursor: ew-resize;

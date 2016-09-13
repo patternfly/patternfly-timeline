@@ -51,6 +51,12 @@ var json = [
       {"date": "2016-04-21T01:06:19.126Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
       {"date": "2016-04-16T13:07:15.205Z", "details": {"event": "vmPowerOff", "object": "hostName"}},
       {"date": "2016-04-30T20:02:25.693Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
+      {"date": "2016-04-30T20:02:26.664Z", "details": {"event": "vmPowerUp", "object": "vmNorm"}},
+      {"date": "2016-04-30T20:02:27.627Z", "details": {"event": "vmPowerDown", "object": "vmGnome"}},
+      {"date": "2016-04-30T20:02:28.694Z", "details": {"event": "vmPowerIn", "object": "vmNone"}},
+      {"date": "2016-04-30T20:02:28.628Z", "details": {"event": "vmPowerOut", "object": "vmNoon"}},
+      {"date": "2016-04-30T20:02:29.618Z", "details": {"event": "vmPowerOutage", "object": "vmName"}},
+      {"date": "2016-04-30T20:02:25.693Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
       {"date": "2016-04-07T22:35:41.145Z", "details": {"event": "vmPowerOff", "object": "hostName"}}
     ]
   },
