@@ -8,6 +8,7 @@ export default (svg, scales, configuration) => function dropsSelector(data) {
     .attr('fill', configuration.eventLineColor);
 
   dropLines.each(function dropLineDraw(drop) {
+
     const drops = d3.select(this).selectAll('.drop').data(drop.data);
 
     drops.attr('transform', (d) => `translate(${scales.x(d.date)})`);
@@ -15,6 +16,7 @@ export default (svg, scales, configuration) => function dropsSelector(data) {
     const shape = drops.enter()
       .append('text')
       .classed('drop', true)
+      .classed('event-group', (d) => {return d.hasOwnProperty("events") ? true : false})
       .attr('transform', (d) => `translate(${scales.x(d.date)})`)
       .attr('fill', configuration.eventColor)
       .attr('text-anchor', 'middle')

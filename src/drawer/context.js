@@ -40,18 +40,19 @@ export default (svg, scales, dimensions, configuration, data) => {
   contextContainer.append("g")
     .attr("class", "pf-timeline-brush");
 
-  function countEvents(data, toRoundTo, counts) {
-    let temp = {};
-    for(let i in data) {
-      for (let j in data[i].data) {
-        let rounded = Math.floor(data[i].data[j].date / toRoundTo) * toRoundTo;
-        temp[rounded] = temp[rounded] + 1 || 1;
-      }
+};
+
+function countEvents(data, toRoundTo, counts) {
+  let temp = {};
+  for(let i in data) {
+    for (let j in data[i].data) {
+      let rounded = Math.floor(data[i].data[j].date / toRoundTo) * toRoundTo;
+      temp[rounded] = temp[rounded] + 1 || 1;
     }
-    for(let k in temp) {
-      let tempDate = new Date();
-      tempDate.setTime(+k);
-      counts.push({'date': tempDate, 'count': temp[k]});
-    }
+  }
+  for(let k in temp) {
+    let tempDate = new Date();
+    tempDate.setTime(+k);
+    counts.push({'date': tempDate, 'count': temp[k]});
   }
 };
