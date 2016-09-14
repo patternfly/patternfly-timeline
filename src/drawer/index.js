@@ -19,11 +19,13 @@ export default (svg, dimensions, scales, configuration) => {
   if(configuration.context) {
     defs.append('clipPath')
       .attr('id', 'context-brush-clipper')
-      .append('rect')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('width', dimensions.width)
-        .attr('height', dimensions.ctxHeight);
+      .append('polygon')
+        .attr('points', `0,0 ${dimensions.width},0 ${dimensions.width + configuration.sliderWidth},${dimensions.ctxHeight/2} ${dimensions.width},${dimensions.ctxHeight} 0,${dimensions.ctxHeight} ${-configuration.sliderWidth},${dimensions.ctxHeight/2}`)
+      // .append('rect')
+      //   .attr('x', 0)
+      //   .attr('y', 0)
+      //   .attr('width', dimensions.width)
+      //   .attr('height', dimensions.ctxHeight);
   }
 
   const pattern = defs.append('pattern')

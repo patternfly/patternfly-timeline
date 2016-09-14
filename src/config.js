@@ -68,7 +68,7 @@ const config = {
   marker: true,
   context: true,
   slider: true,
-  eventGrouping: 60000,
+  eventGrouping: 60000, //one minute
 };
 
 config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');
