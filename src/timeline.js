@@ -26,7 +26,9 @@ function timeline(config = {}) {
   function timelineGraph(selection) {
     selection.each(function selector(data) {
 
-      data= groupEvents(data, finalConfiguration.eventGrouping);
+      data = groupEvents(data, finalConfiguration.eventGrouping);
+
+      finalConfiguration.lineHeight = (data.length <= 3) ? 80 : 40;
 
       d3.select(this).select('.pf-timeline-chart').remove();
       d3.select(this).selectAll('.pf-timeline-zoom').remove();
