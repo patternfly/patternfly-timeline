@@ -75,7 +75,7 @@ Configurable values:
   - `eventLineColor`: The color of the event line. Accepts a color (color name or `#ffffff` notation), or a function receiving the eventData and returning a color. Defaults to 'black'.
   - `eventColor`: The color of the event. Accepts a color (color name or `#ffffff` notation), or a function receiving the eventData and returning a color. Defaults to null. EventLineColor will be ignored if this is used.
   - `eventShape`: The shape of the event. Accepts unicode characters, including icon fonts.
-  - `eventTooltip`: The contents of the event's tooltip.
+  - `eventPopover`: The contents of the event's popover.
   - `marker`: *true* by default. Enable current time/date marker under mouse pointer.
   - `context`: *true* by default. Enable context viewport beneath chart.
   - `slider`: *true* by default. Enable zoom slider and buttons to right of chart.

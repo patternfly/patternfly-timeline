@@ -65,11 +65,6 @@ text.event-group {
   padding: 10px;
 }
 
-.tooltip-inner {
-  white-space: pre;
-  max-width: none;
-}
-
 .timestamp text {
   fill: #fff;
 }
