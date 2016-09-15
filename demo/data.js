@@ -49,7 +49,7 @@ var json = [
     "name":"Alarm/Error",
     "data":[
       {"date": "2016-04-21T01:06:19.126Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
-      {"date": "2016-04-16T13:07:15.205Z", "details": {"event": "vmPowerOff", "object": "hostName"}},
+      {"date": "2016-04-16T13:07:15.205Z", "details": {"event": "<a href='google.com'>This is a link</a>", "object": "hostName"}},
       {"date": "2016-04-30T20:02:25.693Z", "details": {"event": "vmPowerOn", "object": "vmName"}},
       {"date": "2016-04-30T20:02:26.664Z", "details": {"event": "vmPowerUp", "object": "vmNorm"}},
       {"date": "2016-04-30T20:02:27.627Z", "details": {"event": "vmPowerDown", "object": "vmGnome"}},

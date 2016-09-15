@@ -1,11 +1,7 @@
 $(document).ready(function() {
-  $('[data-toggle="tooltip"]').tooltip({
+  $('[data-toggle="popover"]').popover({
     'container': 'body',
-    'placement': 'top',
-    'delay': {
-      "show": 500,
-      "hide": 100
-    }
+    'placement': 'top'
   });
 });
 
@@ -73,25 +69,17 @@ $('#timeline-selectpicker').on('changed.bs.select', function(event, clickedIndex
     return eventGroup.display === true;
   }));
   timeline(element);
-  $('[data-toggle="tooltip"]').tooltip({
+  $('[data-toggle="popover"]').popover({
     'container': 'body',
-    'placement': 'top',
-    'delay': {
-      "show": 500,
-      "hide": 100
-    }
+    'placement': 'top'
   });
 });
 
 $(window).on('resize', function() {
   timeline(element);
-  $('[data-toggle="tooltip"]').tooltip({
+  $('[data-toggle="popover"]').popover({
     'container': 'body',
-    'placement': 'top',
-    'delay': {
-      "show": 500,
-      "hide": 100
-    }
+    'placement': 'top'
   });
 });
 
@@ -165,12 +153,9 @@ function zoomFilter() {
 
 $('#reset-button').click(function() {
   timeline(element);
-  $('[data-toggle="tooltip"]').tooltip({
+  $('[data-toggle="popover"]').popover({
     'container': 'body',
-    'placement': 'top',
-    'delay': {
-      "show": 500,
-      "hide": 100
-    }
+    'placement': 'top'
   });
+
 });
