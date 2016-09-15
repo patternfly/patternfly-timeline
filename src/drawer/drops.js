@@ -14,16 +14,19 @@ export default (svg, scales, configuration) => function dropsSelector(data) {
     drops.attr('transform', (d) => `translate(${scales.x(d.date)})`);
 
     const shape = drops.enter()
-      .append('text')
-      .classed('drop', true)
-      .classed('event-group', (d) => {return d.hasOwnProperty("events") ? true : false})
-      .attr('transform', (d) => `translate(${scales.x(d.date)})`)
-      .attr('fill', configuration.eventColor)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'central')
-      .attr('data-toggle', 'tooltip')
-      .attr('title', configuration.eventTooltip)
-      .text(configuration.eventShape);
+        .append('text')
+          .classed('drop', true)
+          .classed('event-group', (d) => {return d.hasOwnProperty("events") ? true : false})
+          .attr('transform', (d) => `translate(${scales.x(d.date)})`)
+          .attr('fill', configuration.eventColor)
+          .attr('text-anchor', 'middle')
+          .attr('tabindex', '0')
+          .attr('data-toggle', 'popover')
+          .attr('data-html', 'true')
+          .attr('data-content', configuration.eventPopover)
+          .attr('data-trigger', 'focus')
+          .attr('dominant-baseline', 'central')
+          .text(configuration.eventShape);
 
     if (configuration.eventClick) {
       shape.on('click', configuration.eventClick);

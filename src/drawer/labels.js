@@ -3,9 +3,20 @@ import filterData from '../filterData';
 export default (container, scales, config) => data => {
   const labels = container.selectAll('.label').data(data);
 
+  const countEvents = data => {
+    let count = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].hasOwnProperty("events")) {
+        count += data[i].events.length;
+      } else {
+        count++;
+      }
+    }
+    return count
+  }
   const text = d => {
-    const count = filterData(d.data, scales.x).length;
-    return d.name + (count > 0 ? ` (${count})` : '');
+    const count = countEvents(d.data);
+    return d.name + (count >= 0 ? ` (${count})` : '');
   };
 
   labels.text(text);

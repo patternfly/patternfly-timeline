@@ -48,22 +48,22 @@ const config = {
   eventColor: null,
   eventShape: (d) => {
     if(d.hasOwnProperty("events")) {
-      return '\uf192';
+      return '\uf140';
     } else {
       return '\uf111';
     }
   },
-  eventTooltip: (d) => {
-    var tooltip = '';
+  eventPopover: (d) => {
+    var popover = '';
     if(d.hasOwnProperty("events")) {
-      tooltip = `Group of ${d.events.length} events`
+      popover = `Group of ${d.events.length} events`
     } else {
       for (var i in d.details) {
-        tooltip = tooltip + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + d.details[i] + '\n';
+        popover = popover + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + d.details[i] + '<br>';
       }
-      tooltip = tooltip + 'Date: ' + d.date;
+      popover = popover + 'Date: ' + d.date;
     }
-    return tooltip;
+    return popover;
   },
   marker: true,
   context: true,
