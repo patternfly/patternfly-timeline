@@ -177,14 +177,10 @@ export default class zoom {
         translate = this.zoom.translate()[0],
         curZoom = this.zoom.scale(),
         target_zoom = this.zoom.scale(),
-        scale_translate,
         cur_width = this.getRange(this.scales.x.domain()),
-        start_translate,
-        toAdd,
-        roundTo = 3600000;//one hour;
+        startDiff;
 
     target_zoom = target_zoom * this.getScale(this.getRange(this.scales.x.domain()), range); // new scale is ratio between old and new date ranges
-
 
     if (target_zoom < extent[0]) {
       target_zoom = extent[0];
@@ -192,21 +188,12 @@ export default class zoom {
       target_zoom = extent[1];
     }
 
-    let widthTwoPx = (range * width) / cur_width;
-    let widthDiff = (widthTwoPx - width) * target_zoom;
+    startDiff = (this.scales.x.domain()[0] - fromTime) * (width / cur_width); // difference between leftmost dates in px
 
-    let startDiff = (this.scales.x.domain()[0] - fromTime) * (width / cur_width); // difference between leftmost dates in px
+    translate += startDiff;
 
+    translate  = translate * (target_zoom / curZoom); // scale translate value (in px) to new zoom scale
 
-    toAdd = startDiff;
-
-    translate = translate * (target_zoom / curZoom); // scale translate value (in px) to new zoom scale
-    translate += toAdd;
-
-    this.zoom
-      .scale(target_zoom)
-      .translate([translate, 0]);
-    this.zoom.event(this.grid);
-
+    this.interpolateZoom([translate, 0], target_zoom, duration)
   }
 }

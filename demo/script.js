@@ -36,7 +36,6 @@ var timeline = d3.chart.timeline()
   .maxScale(ONE_WEEK / ONE_HOUR)
   .eventClick(function(el) {
     var table = '<table class="table table-striped table-bordered">';
-    console.log(el);
     if(el.hasOwnProperty("events")) {
       table = table + '<thead>This is a group of ' + el.events.length + ' events starting on '+ el.date + '</thead><tbody>';
       table = table + '<tr><th>Date</th><th>Event</th><th>Object</th></tr>'
