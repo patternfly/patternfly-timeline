@@ -11,7 +11,7 @@ export default (svg, scales, dimensions, configuration, data) => {
 
   let counts = [];
   let roundTo = 3600000;//one hour
-
+  let barWidth = Math.ceil((roundTo / (scales.ctx.domain()[1] - scales.ctx.domain()[0])) * dimensions.width);
 
   countEvents(data, roundTo, counts);
   counts.sort((a,b) => {
@@ -25,17 +25,14 @@ export default (svg, scales, dimensions, configuration, data) => {
   });
   scales.cty.domain([0, d3.max(counts, (d) => {return d.count;})]);
 
-  let area = d3.svg.area()
-  .interpolate("step")
-  .x( d => { return scales.ctx(d.date); })
-  .y0(dimensions.ctxHeight)
-  .y1( d => { return scales.cty(d.count); });
-
-  const context = contextContainer
-    .append("path")
-    .datum(counts)
-    .attr("class", "area")
-    .attr("d", area);
+  contextContainer.selectAll(".bar")
+        .data(counts)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", d => {return scales.ctx(d.date); })
+          .attr("y", d => {return scales.cty(d.count); })
+          .attr("width", barWidth)
+          .attr("height", d => { return dimensions.ctxHeight - scales.cty(d.count); });
 
   contextContainer.append("g")
     .attr("class", "pf-timeline-brush");
