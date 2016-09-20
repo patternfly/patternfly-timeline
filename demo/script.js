@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('[data-toggle="popover"]').popover({
-    'container': 'body',
+    'container': '#pf-timeline',
     'placement': 'top'
   });
 });
@@ -70,7 +70,7 @@ $('#timeline-selectpicker').on('changed.bs.select', function(event, clickedIndex
   }));
   timeline(element);
   $('[data-toggle="popover"]').popover({
-    'container': 'body',
+    'container': '#pf-timeline',
     'placement': 'top'
   });
 });
@@ -78,7 +78,7 @@ $('#timeline-selectpicker').on('changed.bs.select', function(event, clickedIndex
 $(window).on('resize', function() {
   timeline(element);
   $('[data-toggle="popover"]').popover({
-    'container': 'body',
+    'container': '#pf-timeline',
     'placement': 'top'
   });
 });
@@ -154,7 +154,7 @@ function zoomFilter() {
 $('#reset-button').click(function() {
   timeline(element);
   $('[data-toggle="popover"]').popover({
-    'container': 'body',
+    'container': '#pf-timeline',
     'placement': 'top'
   });
 

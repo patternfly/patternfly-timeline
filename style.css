@@ -56,7 +56,7 @@ text.event-group {
 
 .grid {
   stroke: #d1d1d1;
-  cursor: ew-resize;
+  cursor: all-scroll;
   shape-rendering: crispEdges;
 }
 
@@ -90,8 +90,8 @@ text.event-group {
   position:absolute;
 }
 
-.context .area {
-  fill: #d1d1d1;
+.context .bar {
+  fill: #bbbbbb;
   shape-rendering: crispEdges;
 }
 
