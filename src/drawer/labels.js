@@ -1,5 +1,3 @@
-import filterData from '../filterData';
-
 export default (container, scales, config) => data => {
   const labels = container.selectAll('.label').data(data);
 

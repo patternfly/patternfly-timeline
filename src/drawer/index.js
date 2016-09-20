@@ -1,5 +1,4 @@
 import d3 from 'd3';
-import filterData from '../filterData';
 import axesFactory from './axes';
 import dropsFactory from './drops';
 import labelsFactory from './labels';
@@ -20,12 +19,7 @@ export default (svg, dimensions, scales, configuration) => {
     defs.append('clipPath')
       .attr('id', 'context-brush-clipper')
       .append('polygon')
-        .attr('points', `0,0 ${dimensions.width},0 ${dimensions.width + configuration.sliderWidth},${dimensions.ctxHeight/2} ${dimensions.width},${dimensions.ctxHeight} 0,${dimensions.ctxHeight} ${-configuration.sliderWidth},${dimensions.ctxHeight/2}`)
-      // .append('rect')
-      //   .attr('x', 0)
-      //   .attr('y', 0)
-      //   .attr('width', dimensions.width)
-      //   .attr('height', dimensions.ctxHeight);
+        .attr('points', `0,0 ${dimensions.width},0 ${dimensions.width + configuration.sliderWidth},${dimensions.ctxHeight/2} ${dimensions.width},${dimensions.ctxHeight} 0,${dimensions.ctxHeight} ${-configuration.sliderWidth},${dimensions.ctxHeight/2}`);
   }
 
   const pattern = defs.append('pattern')

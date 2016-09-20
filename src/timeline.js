@@ -26,6 +26,7 @@ function timeline(config = {}) {
   function timelineGraph(selection) {
     selection.each(function selector(data) {
 
+      let ungroupedData = data;
       data = groupEvents(data, finalConfiguration.eventGrouping);
 
       finalConfiguration.lineHeight = (data.length <= 3) ? 80 : 40;
@@ -61,7 +62,7 @@ function timeline(config = {}) {
       draw(data);
 
       if (finalConfiguration.context) {
-        context(svg, scales, dimensions, finalConfiguration, data);
+        context(svg, scales, dimensions, finalConfiguration, ungroupedData);
       }
 
       zoomInstance.updateZoom(d3.select(this), dimensions, scales, finalConfiguration, data, draw);
