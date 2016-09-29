@@ -26,7 +26,7 @@ export default (gridContainer, stampContainer, scales, dimensions, dateFormat) =
 
   var timeBox = stampContainer.append('rect')
     .attr('height', '24')
-    .attr('width', '130')
+    .attr('width', '150')
     .style('display', 'none');
 
   var timeStamp = stampContainer.append('text')
@@ -37,7 +37,7 @@ export default (gridContainer, stampContainer, scales, dimensions, dateFormat) =
   function moveMarker() {
     var pos = d3.mouse(gridContainer[0][0])[0]
     marker.attr('transform', `translate(${pos})`);
-    timeBox.attr('transform', `translate(${pos - 65}, -25)`);
+    timeBox.attr('transform', `translate(${pos - 75}, -25)`);
     timeStamp.attr('transform', `translate(${pos}, -9)`)
       .text(dateFormat(scales.x.invert(pos)));
 

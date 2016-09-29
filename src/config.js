@@ -23,9 +23,8 @@ const config = {
     [':%S', (d) => d.getSeconds()],
     ['%I:%M', (d) => d.getMinutes()],
     ['%I %p', (d) => d.getHours()],
-    ['%a %d', (d) => d.getDay() && d.getDate() !== 1],
-    ['%b %d', (d) => d.getDate() !== 1],
-    ['%B', (d) => d.getMonth()],
+    ['%b %d', (d) => d.getMonth() && d.getDate()],
+    ['%b', (d) => d.getMonth()],
     ['%Y', () => true]
   ],
   eventHover: null,
@@ -71,6 +70,6 @@ const config = {
   eventGrouping: 60000, //one minute
 };
 
-config.dateFormat = config.locale ? config.locale.timeFormat('%x %I:%M %p') : d3.time.format('%x %I:%M %p');
+config.dateFormat = config.locale ? config.locale.timeFormat('%a %x %I:%M %p') : d3.time.format('%a %x %I:%M %p');
 
 module.exports = config;
