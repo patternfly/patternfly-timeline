@@ -14,6 +14,9 @@ export default (container, scales, config) => data => {
   }
   const text = d => {
     const count = countEvents(d.data);
+    if (d.name === undefined || d.name ===''){
+      return `${count} Events`;
+    }
     return d.name + (count >= 0 ? ` (${count})` : '');
   };
 
@@ -22,7 +25,6 @@ export default (container, scales, config) => data => {
   labels.enter()
     .append('text')
       .classed('label', true)
-      // .attr('x', 180)
       .attr('transform', (d, idx) => `translate(${config.labelWidth - 20} ${scales.y(idx) + (config.lineHeight/2)})`)
       .attr('dominant-baseline', 'central')
       .attr('text-anchor', 'end')
