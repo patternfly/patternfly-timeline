@@ -38,24 +38,29 @@ var timeline = d3.chart.timeline()
     var table = '<table class="table table-striped table-bordered">';
     if(el.hasOwnProperty("events")) {
       table = table + '<thead>This is a group of ' + el.events.length + ' events starting on '+ el.date + '</thead><tbody>';
-      table = table + '<tr><th>Date</th><th>Event</th><th>Object</th></tr>'
+      table = table + '<tr><th>Date</th><th>Event</th><th>Object</th></tr>';
       for (var i = 0; i < el.events.length; i++) {
         table = table + '<tr><td>' + el.events[i].date + ' </td> ';
         for (var j in el.events[i].details) {
           table = table +'<td> ' + el.events[i].details[j] + ' </td> ';
         }
-        table = table + '</tr>'
+        table = table + '</tr>';
       }
       table = table + '</tbody>';
     } else {
       table = table + 'Date: ' + el.date + '<br>';
-      for (var i in el.details) {
+      for (i in el.details) {
         table = table + i.charAt(0).toUpperCase() + i.slice(1) + ': ' + el.details[i] + '<br>';
       }
     }
     $('#legend').html(table);
 
   });
+if(countNames(data) <= 0) {
+  timeline.labelWidth(60);
+}
+
+
 
 var element = d3.select('#pf-timeline').append('div').datum(data.filter(function(eventGroup) {
   return eventGroup.display === true;
@@ -106,6 +111,16 @@ $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
     return false;
 
   });
+
+function countNames(data) {
+  var count = 0;
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].name !== undefined && data[i].name !=='') {
+      count++;
+    }
+  }
+  return count;
+}
 
 function zoomFilter() {
   var range = $('#range-dropdown').find('[data-bind="label"]' ).text(),
