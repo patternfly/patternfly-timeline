@@ -115,7 +115,7 @@ export default class zoom {
         x: this.zoom.translate()[0],
         k: this.zoom.scale()
       };
-    switch (event.target.id) {
+    switch (d3.event.target.id) {
       case 'zoom-in-icon':
       case 'zoom-in':
         target_zoom = this.zoom.scale() * (1 + factor);
@@ -127,7 +127,7 @@ export default class zoom {
         duration = 100;
         break;
       case 'pf-timeline-slider':
-        target_zoom = this.sliderScale.invert(event.target.value);
+        target_zoom = this.sliderScale.invert(d3.event.target.value);
         break;
       default:
         target_zoom = this.zoom.scale();

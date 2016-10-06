@@ -44,8 +44,6 @@ text.drop {
 
 text.drop:hover {
   font-size: 21px;
-  stroke-width: 2px;
-  stroke: #fff;
   font-weight: bold;
   paint-order: stroke;
 }

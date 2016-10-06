@@ -20,11 +20,9 @@ export default (svg, scales, configuration) => function dropsSelector(data) {
           .attr('transform', (d) => `translate(${scales.x(d.date)})`)
           .attr('fill', configuration.eventColor)
           .attr('text-anchor', 'middle')
-          .attr('tabindex', '0')
           .attr('data-toggle', 'popover')
           .attr('data-html', 'true')
           .attr('data-content', configuration.eventPopover)
-          .attr('data-trigger', 'focus')
           .attr('dominant-baseline', 'central')
           .text(configuration.eventShape);
 
