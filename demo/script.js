@@ -5,6 +5,10 @@ $(document).ready(function() {
   });
 });
 
+$(document).on('click', '.drop', function () {$(this).popover('show'); });
+
+$(document).on('click', '.grid', function () {$('[data-toggle="popover"]').popover('hide');});
+
 const ONE_HOUR = 60 * 60 * 1000,
       ONE_DAY = 24 * ONE_HOUR,
       ONE_WEEK = 7 * ONE_DAY,
