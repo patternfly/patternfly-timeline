@@ -31,8 +31,8 @@ function timeline(config = {}) {
 
       finalConfiguration.lineHeight = (data.length <= 3) ? 80 : 40;
 
-      d3.select(this).select('.pf-timeline__chart').remove();
-      d3.select(this).selectAll('.pf-timeline__zoom').remove();
+      d3.select(this).select('.timeline-pf-chart').remove();
+      d3.select(this).selectAll('.timeline-pf-zoom').remove();
 
       const SCALEHEIGHT = 40;
       let outer_width = finalConfiguration.width || selection.node().clientWidth;
@@ -52,7 +52,7 @@ function timeline(config = {}) {
       };
 
       const svg = d3.select(this).append('svg')
-        .classed('pf-timeline__chart', true)
+        .classed('timeline-pf-chart', true)
         .attr({
           width: outer_width,
           height: dimensions.outer_height,

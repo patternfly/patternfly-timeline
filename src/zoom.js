@@ -12,7 +12,7 @@ export default class zoom {
     this.ONE_WEEK = this.ONE_DAY * 7;
     this.ONE_MONTH = this.ONE_DAY * 30;
 
-    this.grid = d3.select('.pf-timeline__grid');
+    this.grid = d3.select('.timeline-pf-grid');
     this.dimensions = dimensions;
     this.scales = scales;
     this.configuration = configuration;
@@ -31,30 +31,30 @@ export default class zoom {
     if (configuration.slider) {
       const zoomIn = container.append('button')
           .attr('type', 'button')
-          .attr('class', 'btn btn-default pf-timeline__zoom pf-timeline__zoom-in')
-          .attr('id', 'pf-timeline__zoom-in')
+          .attr('class', 'btn btn-default timeline-pf-zoom timeline-pf-zoom-in')
+          .attr('id', 'timeline-pf-zoom-in')
           .style('top', `${configuration.padding.top}px`)
           .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
       zoomIn.append('i')
           .attr('class', 'fa fa-plus')
-          .attr('id', 'pf-timeline__zoom-in-icon');
+          .attr('id', 'timeline-pf-zoom-in-icon');
 
       const zoomOut = container.append('button')
           .attr('type', 'button')
-          .attr('class', 'btn btn-default pf-timeline__zoom')
-          .attr('id', 'pf-timeline__zoom-out')
+          .attr('class', 'btn btn-default timeline-pf-zoom')
+          .attr('id', 'timeline-pf-zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
           .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
       zoomOut.append('i')
         .attr('class', 'fa fa-minus')
-        .attr('id', 'pf-timeline__zoom-out-icon');
+        .attr('id', 'timeline-pf-zoom-out-icon');
 
       const zoomSlider = container.append('input')
           .attr('type', 'range')
-          .attr('class', 'pf-timeline__zoom pf-timeline__slider')
-          .attr('id', 'pf-timeline__slider')
+          .attr('class', 'timeline-pf-zoom timeline-pf-slider')
+          .attr('id', 'timeline-pf-slider')
           .style('width', `${dimensions.height - (zoomIn.node().offsetHeight * 2)}px`)
           .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - 7}px`)
           .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight) / 2 + zoomIn.node().offsetWidth}px`)
@@ -71,7 +71,7 @@ export default class zoom {
         .extent(scales.x.domain())
         .on("brush", () => {this.brushed()});
 
-      container.select('.pf-timeline__brush')
+      container.select('.timeline-pf-brush')
         .call(this.brush)
         .selectAll("rect")
           .attr("height", dimensions.ctxHeight);
@@ -85,11 +85,11 @@ export default class zoom {
     this.zoom.on('zoom', () => {
       requestAnimationFrame(() => callback(data));
       if(configuration.slider) {
-        container.select('#pf-timeline__slider').property('value', this.sliderScale(this.zoom.scale()));
+        container.select('#timeline-pf-slider').property('value', this.sliderScale(this.zoom.scale()));
       }
       if(configuration.context) {
         this.brush.extent(this.scales.x.domain());
-        container.select('.pf-timeline__brush').call(this.brush);
+        container.select('.timeline-pf-brush').call(this.brush);
       }
     });
     return this.grid.call(this.zoom)
@@ -116,17 +116,17 @@ export default class zoom {
         k: this.zoom.scale()
       };
     switch (d3.event.target.id) {
-      case 'pf-timeline__zoom-in-icon':
-      case 'pf-timeline__zoom-in':
+      case 'timeline-pf-zoom-in-icon':
+      case 'timeline-pf-zoom-in':
         target_zoom = this.zoom.scale() * (1 + factor);
         duration = 100;
         break;
-      case 'pf-timeline__zoom-out-icon':
-      case 'pf-timeline__zoom-out':
+      case 'timeline-pf-zoom-out-icon':
+      case 'timeline-pf-zoom-out':
         target_zoom = this.zoom.scale() * (1 + factor * -1);
         duration = 100;
         break;
-      case 'pf-timeline__slider':
+      case 'timeline-pf-slider':
         target_zoom = this.sliderScale.invert(d3.event.target.value);
         break;
       default:

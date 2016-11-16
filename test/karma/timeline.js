@@ -8,7 +8,7 @@ describe('d3.chart.timeline', () => {
         const chart = d3.chart.timeline();
         d3.select(div).datum(data).call(chart);
 
-        expect(div.querySelectorAll('svg.pf-timeline__chart').length).toBe(1);
+        expect(div.querySelectorAll('svg.timeline-pf-chart').length).toBe(1);
     });
 
     it('should remove all previously created charts in current selection to prevent duplicates', () => {
@@ -19,7 +19,7 @@ describe('d3.chart.timeline', () => {
         d3.select(div).datum(data).call(chart);
         d3.select(div).datum(data).call(chart);
 
-        expect(div.querySelectorAll('svg.pf-timeline__chart').length).toBe(1);
+        expect(div.querySelectorAll('svg.timeline-pf-chart').length).toBe(1);
     });
 
     it('should have as many lines as events', () => {
@@ -33,7 +33,7 @@ describe('d3.chart.timeline', () => {
         const chart = d3.chart.timeline().start(new Date('2010-01-25'));
         d3.select(div).datum(data).call(chart);
 
-        expect(div.querySelectorAll('.pf-timeline__drop-line').length).toBe(3);
+        expect(div.querySelectorAll('.timeline-pf-drop-line').length).toBe(3);
     });
 
     it('should have as many drops as given dates', () => {
@@ -47,6 +47,6 @@ describe('d3.chart.timeline', () => {
         const chart = d3.chart.timeline().start(new Date('2010-01-25'));
         d3.select(div).datum(data).call(chart);
 
-        expect(div.querySelectorAll('.pf-timeline__drop').length).toBe(3);
+        expect(div.querySelectorAll('.timeline-pf-drop').length).toBe(3);
     });
 });

@@ -1,22 +1,22 @@
 export default (svg, scales, configuration) => function dropsSelector(data) {
-  const dropLines = svg.selectAll('.pf-timeline__drop-line').data(data);
+  const dropLines = svg.selectAll('.timeline-pf-drop-line').data(data);
 
   dropLines.enter()
     .append('g')
-    .classed('pf-timeline__drop-line', true)
+    .classed('timeline-pf-drop-line', true)
     .attr('transform', (d, idx) => `translate(0, ${scales.y(idx) + (configuration.lineHeight/2)})`)
     .attr('fill', configuration.eventLineColor);
 
   dropLines.each(function dropLineDraw(drop) {
 
-    const drops = d3.select(this).selectAll('.pf-timeline__drop').data(drop.data);
+    const drops = d3.select(this).selectAll('.timeline-pf-drop').data(drop.data);
 
     drops.attr('transform', (d) => `translate(${scales.x(d.date)})`);
 
     const shape = drops.enter()
         .append('text')
-          .classed('pf-timeline__drop', true)
-          .classed('pf-timeline__event-group', (d) => {return d.hasOwnProperty("events") ? true : false})
+          .classed('timeline-pf-drop', true)
+          .classed('timeline-pf-event-group', (d) => {return d.hasOwnProperty("events") ? true : false})
           .attr('transform', (d) => `translate(${scales.x(d.date)})`)
           .attr('fill', configuration.eventColor)
           .attr('text-anchor', 'middle')

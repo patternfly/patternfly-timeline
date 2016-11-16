@@ -3,10 +3,10 @@ import d3 from 'd3';
 export default (svg, scales, dimensions, configuration, data) => {
 
   const contextContainer = svg.append("g")
-    .classed('pf-timeline__context', true)
+    .classed('timeline-pf-context', true)
     .attr('width', dimensions.width)
     .attr('height', dimensions.ctxHeight)
-    .attr('clip-path', 'url(#pf-timeline__context-brush-clipper)')
+    .attr('clip-path', 'url(#timeline-pf-context-brush-clipper)')
     .attr("transform", `translate(${configuration.padding.left + configuration.labelWidth},${configuration.padding.top + dimensions.height + 40})`);
 
   let counts = [];
@@ -25,17 +25,17 @@ export default (svg, scales, dimensions, configuration, data) => {
   });
   scales.cty.domain([0, d3.max(counts, (d) => {return d.count;})]);
 
-  contextContainer.selectAll(".pf-timeline__bar")
+  contextContainer.selectAll(".timeline-pf-bar")
         .data(counts)
         .enter().append("rect")
-          .attr("class", "pf-timeline__bar")
+          .attr("class", "timeline-pf-bar")
           .attr("x", d => {return scales.ctx(d.date); })
           .attr("y", d => {return scales.cty(d.count); })
           .attr("width", barWidth)
           .attr("height", d => { return dimensions.ctxHeight - scales.cty(d.count); });
 
   contextContainer.append("g")
-    .attr("class", "pf-timeline__brush");
+    .attr("class", "timeline-pf-brush");
 
 };
 
