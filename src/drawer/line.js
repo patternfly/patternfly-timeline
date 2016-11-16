@@ -6,7 +6,7 @@ export const line = (svg, xScale, yScale, data, eventColor = '#000') => {
 
   dropElements.enter()
     .append('g')
-      .classed('line', true)
+      .classed('pf-timeline__line', true)
       .attr('transform', (d) => `translate(0, ${yScale(d.name)})`)
       .call(drops(xScale, eventColor));
 

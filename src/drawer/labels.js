@@ -1,5 +1,5 @@
 export default (container, scales, config) => data => {
-  const labels = container.selectAll('.label').data(data);
+  const labels = container.selectAll('.pf-timeline__label').data(data);
 
   const countEvents = data => {
     let count = 0;
@@ -24,7 +24,7 @@ export default (container, scales, config) => data => {
 
   labels.enter()
     .append('text')
-      .classed('label', true)
+      .classed('pf-timeline__label', true)
       .attr('transform', (d, idx) => `translate(${config.labelWidth - 20} ${scales.y(idx) + (config.lineHeight/2)})`)
       .attr('dominant-baseline', 'central')
       .attr('text-anchor', 'end')

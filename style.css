@@ -1,19 +1,19 @@
-.zoom-area {
+.pf-timeline__zoom-area {
   fill: transparent;
   cursor: pointer;
 }
 
-.y-tick {
+.pf-timeline__y-tick {
   stroke: black;
   fill: none;
   stroke-width: 1px;
 }
 
-.axes {
+.pf-timeline__axes {
   fill: #fafafa;
 }
 
-.x-axis {
+.pf-timeline__x-axis {
   position: absolute;
   z-index: 50;
   stroke: #d1d1d1;
@@ -22,18 +22,18 @@
   shape-rendering: crispEdges;
 }
 
-.x-axis text {
+.pf-timeline__x-axis text {
   stroke: none;
   fill: black;
   font-family: 'Open Sans';
   font-size: 12px;
 }
 
-.label {
+.pf-timeline__label {
   font-weight: 400;
 }
 
-text.drop {
+text.pf-timeline__drop {
   text-rendering: auto;
   font-size: 10px;
   font-family: 'FontAwesome';
@@ -42,68 +42,72 @@ text.drop {
   cursor: pointer;
 }
 
-text.drop:hover {
+text.pf-timeline__drop:hover {
   font-size: 21px;
   font-weight: bold;
   paint-order: stroke;
 }
 
-text.event-group {
+text.pf-timeline__event-group {
   font-size: 18px;
 }
 
-.grid {
+.pf-timeline__grid {
   stroke: #d1d1d1;
   cursor: all-scroll;
   shape-rendering: crispEdges;
 }
 
-.graph-body .line {
+.pf-timeline__graph-body .pf-timeline__line {
   height: 20px;
   padding: 10px;
 }
 
-.timestamp text {
+.pf-timeline__timestamp text {
   fill: #fff;
 }
 
-.timestamp rect {
+.pf-timeline__timestamp rect {
   fill: #000;
   opacity: .7;
 }
 
-.pf-timeline-brush .extent {
+.pf-timeline__marker {
+  pointer-events: none;
+}
+
+.pf-timeline__brush .extent {
   stroke: none;
   fill: #0088ce;
   fill-opacity: .25;
   shape-rendering: crispEdges;
 }
 
-.graph-body .line {
+.pf-timeline__graph-body .pf-timeline__line {
   height: 20px;
   padding: 10px;
 }
 
-.pf-timeline-zoom {
+.pf-timeline__zoom {
   position:absolute;
 }
 
-.context .bar {
+.pf-timeline__context .pf-timeline__bar {
   fill: #bbbbbb;
   shape-rendering: crispEdges;
 }
 
-#pf-timeline-slider {
+.pf-timeline__slider {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 
-#grid-stripes rect {
+.pf-timeline__grid-stripes rect {
   fill: #fafafa;
   shape-rendering: crispEdges;
 }
 
-#grid-stripes line {
+ .pf-timeline__grid-stripes line {
   stroke: #d1d1d1;
   stroke-width: 1px;
   shape-rendering: crispEdges;

@@ -7,9 +7,9 @@ import markerFactory from './marker';
 export default (svg, dimensions, scales, configuration) => {
   const defs = svg.append('defs');
   defs.append('clipPath')
-    .attr('id', 'drops-container-clipper')
+    .attr('id', 'pf-timeline__drops-container-clipper')
     .append('rect')
-      .attr('id', 'drops-container-rect')
+      .attr('id', 'pf-timeline__drops-container-rect')
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', dimensions.width)
@@ -17,13 +17,14 @@ export default (svg, dimensions, scales, configuration) => {
 
   if(configuration.context) {
     defs.append('clipPath')
-      .attr('id', 'context-brush-clipper')
+      .attr('id', 'pf-timeline__context-brush-clipper')
       .append('polygon')
         .attr('points', `0,0 ${dimensions.width},0 ${dimensions.width + configuration.sliderWidth},${dimensions.ctxHeight/2} ${dimensions.width},${dimensions.ctxHeight} 0,${dimensions.ctxHeight} ${-configuration.sliderWidth},${dimensions.ctxHeight/2}`);
   }
 
   const pattern = defs.append('pattern')
-    .attr('id', 'grid-stripes')
+    .attr('class', 'pf-timeline__grid-stripes')
+    .attr('id', 'pf-timeline__grid-stripes')
     .attr('width', dimensions.width)
     .attr('height', (configuration.lineHeight) * 2)
     .attr('patternUnits', 'userSpaceOnUse');
@@ -42,26 +43,26 @@ export default (svg, dimensions, scales, configuration) => {
     .attr('y2', '1px');
 
   const gridContainer = svg.append('g')
-    .classed('grid', true)
-    .attr('fill', 'url(#grid-stripes)')
+    .classed('pf-timeline__grid', true)
+    .attr('fill', 'url(#pf-timeline__grid-stripes)')
     .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth}, ${configuration.padding.top})`);
 
   const labelsContainer = svg.append('g')
-    .classed('labels', true)
+    .classed('pf-timeline__labels', true)
     .attr('transform', `translate(${configuration.padding.left}, ${configuration.padding.top})`);
 
   const axesContainer = svg.append('g')
-    .classed('axes', true)
+    .classed('pf-timeline__axes', true)
     .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth},  ${configuration.padding.top})`);
 
   const dropsContainer = svg.append('g')
-    .classed('drops-container', true)
-    .attr('clip-path', 'url(#drops-container-clipper)')
+    .classed('pf-timeline__drops-container', true)
+    .attr('clip-path', 'url(#pf-timeline__drops-container-clipper)')
     .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth},  ${configuration.padding.top})`);
 
   if (configuration.marker) {
     const stampContainer = svg.append('g')
-      .classed('timestamp', true)
+      .classed('pf-timeline__timestamp', true)
       .attr('height', 30)
       .attr('transform', `translate(${configuration.padding.left + configuration.labelWidth}, ${configuration.padding.top})`);
 
