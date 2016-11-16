@@ -18,7 +18,7 @@ export default (gridContainer, stampContainer, scales, dimensions, dateFormat) =
 
 
   var marker = gridContainer.append('line')
-    .classed('marker', true)
+    .classed('pf-timeline__marker', true)
     .attr('y1', 0)
     .attr('y2', dimensions.height);
 
