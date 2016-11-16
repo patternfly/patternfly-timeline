@@ -12,7 +12,7 @@ export default class zoom {
     this.ONE_WEEK = this.ONE_DAY * 7;
     this.ONE_MONTH = this.ONE_DAY * 30;
 
-    this.grid = d3.select('.grid');
+    this.grid = d3.select('.pf-timeline__grid');
     this.dimensions = dimensions;
     this.scales = scales;
     this.configuration = configuration;
@@ -31,30 +31,30 @@ export default class zoom {
     if (configuration.slider) {
       const zoomIn = container.append('button')
           .attr('type', 'button')
-          .attr('class', 'btn btn-default pf-timeline-zoom')
-          .attr('id', 'zoom-in')
+          .attr('class', 'btn btn-default pf-timeline__zoom pf-timeline__zoom-in')
+          .attr('id', 'pf-timeline__zoom-in')
           .style('top', `${configuration.padding.top}px`)
           .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
       zoomIn.append('i')
           .attr('class', 'fa fa-plus')
-          .attr('id', 'zoom-in-icon');
+          .attr('id', 'pf-timeline__zoom-in-icon');
 
       const zoomOut = container.append('button')
           .attr('type', 'button')
-          .attr('class', 'btn btn-default pf-timeline-zoom')
-          .attr('id', 'zoom-out')
+          .attr('class', 'btn btn-default pf-timeline__zoom')
+          .attr('id', 'pf-timeline__zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
           .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
       zoomOut.append('i')
         .attr('class', 'fa fa-minus')
-        .attr('id', 'zoom-out-icon');
+        .attr('id', 'pf-timeline__zoom-out-icon');
 
       const zoomSlider = container.append('input')
           .attr('type', 'range')
-          .attr('class', 'pf-timeline-zoom')
-          .attr('id', 'pf-timeline-slider')
+          .attr('class', 'pf-timeline__zoom pf-timeline__slider')
+          .attr('id', 'pf-timeline__slider')
           .style('width', `${dimensions.height - (zoomIn.node().offsetHeight * 2)}px`)
           .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - 7}px`)
           .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight) / 2 + zoomIn.node().offsetWidth}px`)
@@ -71,7 +71,7 @@ export default class zoom {
         .extent(scales.x.domain())
         .on("brush", () => {this.brushed()});
 
-      container.select('.pf-timeline-brush')
+      container.select('.pf-timeline__brush')
         .call(this.brush)
         .selectAll("rect")
           .attr("height", dimensions.ctxHeight);
@@ -85,11 +85,11 @@ export default class zoom {
     this.zoom.on('zoom', () => {
       requestAnimationFrame(() => callback(data));
       if(configuration.slider) {
-        container.select('#pf-timeline-slider').property('value', this.sliderScale(this.zoom.scale()));
+        container.select('#pf-timeline__slider').property('value', this.sliderScale(this.zoom.scale()));
       }
       if(configuration.context) {
         this.brush.extent(this.scales.x.domain());
-        container.select('.pf-timeline-brush').call(this.brush);
+        container.select('.pf-timeline__brush').call(this.brush);
       }
     });
     return this.grid.call(this.zoom)
@@ -116,17 +116,17 @@ export default class zoom {
         k: this.zoom.scale()
       };
     switch (d3.event.target.id) {
-      case 'zoom-in-icon':
-      case 'zoom-in':
+      case 'pf-timeline__zoom-in-icon':
+      case 'pf-timeline__zoom-in':
         target_zoom = this.zoom.scale() * (1 + factor);
         duration = 100;
         break;
-      case 'zoom-out-icon':
-      case 'zoom-out':
+      case 'pf-timeline__zoom-out-icon':
+      case 'pf-timeline__zoom-out':
         target_zoom = this.zoom.scale() * (1 + factor * -1);
         duration = 100;
         break;
-      case 'pf-timeline-slider':
+      case 'pf-timeline__slider':
         target_zoom = this.sliderScale.invert(d3.event.target.value);
         break;
       default:
