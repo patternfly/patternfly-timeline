@@ -12,7 +12,7 @@ describe('Drops drawer', () => {
         const chart = d3.chart.timeline().eventClick(clickSpy);
         d3.select(wrapper).datum(data).call(chart);
 
-        const drop = d3.select('.pf-timeline__drop');
+        const drop = d3.select('.timeline-pf-drop');
 
         const event = document.createEvent('UIEvents');
         event.initUIEvent('click', true, true, null, null);
@@ -28,7 +28,7 @@ describe('Drops drawer', () => {
         const chart = d3.chart.timeline().eventHover(hoverSpy);
         d3.select(wrapper).datum(data).call(chart);
 
-        const drop = d3.select('.pf-timeline__drop');
+        const drop = d3.select('.timeline-pf-drop');
 
         const event = document.createEvent('UIEvents');
         event.initUIEvent('mouseover', true, true, null, null);

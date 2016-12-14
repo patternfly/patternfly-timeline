@@ -30,9 +30,11 @@ function timeline(config = {}) {
       data = groupEvents(data, finalConfiguration.eventGrouping);
 
       finalConfiguration.lineHeight = (data.length <= 3) ? 80 : 40;
+      finalConfiguration.contextStart = finalConfiguration.contextStart || d3.min(getDates(data));
+      finalConfiguration.contextEnd = finalConfiguration.contextEnd || finalConfiguration.end;
 
-      d3.select(this).select('.pf-timeline__chart').remove();
-      d3.select(this).selectAll('.pf-timeline__zoom').remove();
+      d3.select(this).select('.timeline-pf-chart').remove();
+      d3.select(this).selectAll('.timeline-pf-zoom').remove();
 
       const SCALEHEIGHT = 40;
       let outer_width = finalConfiguration.width || selection.node().clientWidth;
@@ -47,12 +49,12 @@ function timeline(config = {}) {
       const scales = {
         x: xScale(dimensions.width, [finalConfiguration.start, finalConfiguration.end]),
         y: yScale(data),
-        ctx: xScale(dimensions.width, [d3.min(getDates(data)), finalConfiguration.end]),
+        ctx: xScale(dimensions.width, [finalConfiguration.contextStart, finalConfiguration.contextEnd]),
         cty: d3.scale.linear().range([dimensions.ctxHeight, 0])
       };
 
       const svg = d3.select(this).append('svg')
-        .classed('pf-timeline__chart', true)
+        .classed('timeline-pf-chart', true)
         .attr({
           width: outer_width,
           height: dimensions.outer_height,

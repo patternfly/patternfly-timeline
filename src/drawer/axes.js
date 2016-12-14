@@ -2,11 +2,11 @@ import xAxis from '../xAxis';
 
 export default (axesContainer, scales, configuration, dimensions) => data => {
   const axis = (scope, scale) => {
-    const selection = axesContainer.selectAll(`.pf-timeline__x-axis.${scope}`).data([{}]);
+    const selection = axesContainer.selectAll(`.timeline-pf-x-axis.${scope}`).data([{}]);
 
     selection.enter()
       .append('g')
-      .classed('pf-timeline__x-axis', true)
+      .classed('timeline-pf-x-axis', true)
       .classed(scope, true)
       .call(xAxis(scale, configuration))
       .attr('transform', `translate(0,${scope === 'focus' ? dimensions.height : dimensions.height + dimensions.ctxHeight + 40})`);
