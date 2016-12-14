@@ -16,8 +16,8 @@ const ONE_HOUR = 60 * 60 * 1000,
       SIX_MONTHS = 6 * ONE_MONTH;
 
 var data = [],
-  start = new Date('2016-04-14T04:25:27.663Z'),
-  today = new Date('2016-05-03T04:00:00Z');
+  start = new Date('2016-04-02T20:14:22.691Z'),
+  today = new Date('2016-05-02T17:59:06.134Z');
 
 for (var x in json) { //json lives in external file for testing
   data[x] = {};
@@ -103,7 +103,6 @@ $('#datepicker').datepicker('setDate', today);
 $('#datepicker').on('changeDate', zoomFilter);
 
 $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
-
   var $target = $( event.currentTarget );
     $target.closest( '.dropdown' )
       .find( '[data-bind="label"]' ).text( $target.text() )
@@ -113,7 +112,6 @@ $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
     zoomFilter();
 
     return false;
-
   });
 
 function countNames(data) {
@@ -175,5 +173,4 @@ $('#reset-button').click(function() {
     'container': '#pf-timeline',
     'placement': 'top'
   });
-
 });

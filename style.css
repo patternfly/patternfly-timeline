@@ -1,19 +1,19 @@
-.pf-timeline__zoom-area {
+.timeline-pf-zoom-area {
   fill: transparent;
   cursor: pointer;
 }
 
-.pf-timeline__y-tick {
+.timeline-pf-y-tick {
   stroke: black;
   fill: none;
   stroke-width: 1px;
 }
 
-.pf-timeline__axes {
+.timeline-pf-axes {
   fill: #fafafa;
 }
 
-.pf-timeline__x-axis {
+.timeline-pf-x-axis {
   position: absolute;
   z-index: 50;
   stroke: #d1d1d1;
@@ -22,18 +22,18 @@
   shape-rendering: crispEdges;
 }
 
-.pf-timeline__x-axis text {
+.timeline-pf-x-axis text {
   stroke: none;
   fill: black;
   font-family: 'Open Sans';
   font-size: 12px;
 }
 
-.pf-timeline__label {
+.timeline-pf-label {
   font-weight: 400;
 }
 
-text.pf-timeline__drop {
+text.timeline-pf-drop {
   text-rendering: auto;
   font-size: 10px;
   font-family: 'FontAwesome';
@@ -42,72 +42,72 @@ text.pf-timeline__drop {
   cursor: pointer;
 }
 
-text.pf-timeline__drop:hover {
+text.timeline-pf-drop:hover {
   font-size: 21px;
   font-weight: bold;
   paint-order: stroke;
 }
 
-text.pf-timeline__event-group {
+text.timeline-pf-event-group {
   font-size: 18px;
 }
 
-.pf-timeline__grid {
+.timeline-pf-grid {
   stroke: #d1d1d1;
   cursor: all-scroll;
   shape-rendering: crispEdges;
 }
 
-.pf-timeline__graph-body .pf-timeline__line {
+.timeline-pf-graph-body .timeline-pf-line {
   height: 20px;
   padding: 10px;
 }
 
-.pf-timeline__timestamp text {
+.timeline-pf-timestamp text {
   fill: #fff;
 }
 
-.pf-timeline__timestamp rect {
+.timeline-pf-timestamp rect {
   fill: #000;
   opacity: .7;
 }
 
-.pf-timeline__marker {
+.timeline-pf-marker {
   pointer-events: none;
 }
 
-.pf-timeline__brush .extent {
+.timeline-pf-brush .extent {
   stroke: none;
   fill: #0088ce;
   fill-opacity: .25;
   shape-rendering: crispEdges;
 }
 
-.pf-timeline__graph-body .pf-timeline__line {
+.timeline-pf-graph-body .timeline-pf-line {
   height: 20px;
   padding: 10px;
 }
 
-.pf-timeline__zoom {
+.timeline-pf-zoom {
   position:absolute;
 }
 
-.pf-timeline__context .pf-timeline__bar {
+.timeline-pf-context .timeline-pf-bar {
   fill: #bbbbbb;
   shape-rendering: crispEdges;
 }
 
-.pf-timeline__slider {
+.timeline-pf-slider {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 
-.pf-timeline__grid-stripes rect {
+.timeline-pf-grid-stripes rect {
   fill: #fafafa;
   shape-rendering: crispEdges;
 }
 
- .pf-timeline__grid-stripes line {
+ .timeline-pf-grid-stripes line {
   stroke: #d1d1d1;
   stroke-width: 1px;
   shape-rendering: crispEdges;
