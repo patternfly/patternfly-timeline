@@ -56,13 +56,14 @@ export default class zoom {
           .attr('class', 'timeline-pf-zoom timeline-pf-slider')
           .attr('id', 'timeline-pf-slider')
           .style('width', `${dimensions.height - (zoomIn.node().offsetHeight * 2)}px`)
-          .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - 7}px`)
-          .style('right', `${configuration.padding.right - (dimensions.height - zoomIn.node().offsetHeight) / 2 + zoomIn.node().offsetWidth}px`)
           .attr('value', this.sliderScale(this.zoom.scale()))
           .attr('min', configuration.minScale)
           .attr('max', configuration.maxScale)
           .attr('step', 0.1)
           .on('input', () => {this.zoomClick()});
+      zoomSlider
+        .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - (zoomSlider.node().offsetHeight / 2)}px`)
+        .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width + (configuration.sliderWidth - (zoomIn.node().offsetWidth / 2)) - (zoomSlider.node().offsetWidth / 2)}px`);
     }
 
     if(configuration.context) {

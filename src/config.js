@@ -3,6 +3,8 @@ import d3 from 'd3';
 const config = {
   start: new Date(0),
   end: new Date(),
+  contextStart: null,
+  contextEnd: null,
   minScale: 0,
   maxScale: Infinity,
   width: null,
