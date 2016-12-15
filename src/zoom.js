@@ -34,22 +34,25 @@ export default class zoom {
           .attr('class', 'btn btn-default timeline-pf-zoom timeline-pf-zoom-in')
           .attr('id', 'timeline-pf-zoom-in')
           .style('top', `${configuration.padding.top}px`)
-          .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
-      zoomIn.append('i')
-          .attr('class', 'fa fa-plus')
-          .attr('id', 'timeline-pf-zoom-in-icon');
+      zoomIn
+        .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width + (configuration.sliderWidth - zoomIn.node().offsetWidth)}px`)
+        .append('i')
+            .attr('class', 'fa fa-plus')
+            .attr('id', 'timeline-pf-zoom-in-icon');
 
       const zoomOut = container.append('button')
           .attr('type', 'button')
           .attr('class', 'btn btn-default timeline-pf-zoom')
           .attr('id', 'timeline-pf-zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
-          .style('right', `${configuration.padding.right}px`)
           .on('click', () => {this.zoomClick()});
-      zoomOut.append('i')
-        .attr('class', 'fa fa-minus')
-        .attr('id', 'timeline-pf-zoom-out-icon');
+          console.log(zoomIn.node().offsetWidth);
+      zoomOut
+        .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width + (configuration.sliderWidth - zoomOut.node().offsetWidth)}px`)
+        .append('i')
+          .attr('class', 'fa fa-minus')
+          .attr('id', 'timeline-pf-zoom-out-icon');
 
       const zoomSlider = container.append('input')
           .attr('type', 'range')
@@ -63,7 +66,8 @@ export default class zoom {
           .on('input', () => {this.zoomClick()});
       zoomSlider
         .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - (zoomSlider.node().offsetHeight / 2)}px`)
-        .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width + (configuration.sliderWidth - (zoomIn.node().offsetWidth / 2)) - (zoomSlider.node().offsetWidth / 2)}px`);
+        .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width +
+                          configuration.sliderWidth - ((zoomIn.node().offsetWidth - zoomSlider.node().offsetHeight) / 2) - (zoomSlider.node().offsetWidth / 2)}px`);
     }
 
     if(configuration.context) {
