@@ -3,6 +3,7 @@ patternfly-timeline
 
 A time based/event series interactive visualization using d3.js. Use drag and zoom to navigate in time. [View the demo here.](https://rawgit.com/patternfly/patternfly-timeline/master-dist/demo/)
 
+Based on the [EventDrops](https://github.com/marmelab/EventDrops) timeline.
 ## Usage
 
 Include the `src/timeline.js` script in your page after d3:
@@ -79,6 +80,7 @@ Configurable values:
   - `marker`: `true` by default. Enable current time/date marker under mouse pointer.
   - `context`: `true` by default. Enable context viewport beneath chart.
   - `slider`: `true` by default. Enable zoom slider and buttons to right of chart.
+  - `eventGrouping`: `60000`(one minute) by default. The number of milliseconds within which events will be considered to have happened at the same time.
 
 ## Styling
 
@@ -114,4 +116,4 @@ npm run build
 
 ## License
 
-EventDrops is released under the MIT License, courtesy of [marmelab](http://marmelab.com) and [Canal Plus](https://github.com/canalplus).
+Patternfly Timeline is released under the MIT License

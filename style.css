@@ -1,11 +1,11 @@
 .timeline-pf-zoom-area {
-  fill: transparent;
   cursor: pointer;
+  fill: transparent;
 }
 
 .timeline-pf-y-tick {
-  stroke: black;
   fill: none;
+  stroke: black;
   stroke-width: 1px;
 }
 
@@ -14,19 +14,19 @@
 }
 
 .timeline-pf-x-axis {
-  position: absolute;
-  z-index: 50;
-  stroke: #d1d1d1;
   fill: none;
-  stroke-width: 1px;
+  position: absolute;
   shape-rendering: crispEdges;
+  stroke: #d1d1d1;
+  stroke-width: 1px;
+  z-index: 50;
 }
 
 .timeline-pf-x-axis text {
-  stroke: none;
   fill: black;
   font-family: 'Open Sans';
   font-size: 12px;
+  stroke: none;
 }
 
 .timeline-pf-label {
@@ -34,12 +34,12 @@
 }
 
 text.timeline-pf-drop {
-  text-rendering: auto;
-  font-size: 10px;
+  cursor: pointer;
   font-family: 'FontAwesome';
+  font-size: 10px;
   opacity: .7;
   stroke: none;
-  cursor: pointer;
+  text-rendering: auto;
 }
 
 text.timeline-pf-drop:hover {
@@ -53,9 +53,9 @@ text.timeline-pf-event-group {
 }
 
 .timeline-pf-grid {
-  stroke: #d1d1d1;
   cursor: all-scroll;
   shape-rendering: crispEdges;
+  stroke: #d1d1d1;
 }
 
 .timeline-pf-graph-body .timeline-pf-line {
@@ -77,10 +77,10 @@ text.timeline-pf-event-group {
 }
 
 .timeline-pf-brush .extent {
-  stroke: none;
   fill: #0088ce;
   fill-opacity: .25;
   shape-rendering: crispEdges;
+  stroke: none;
 }
 
 .timeline-pf-graph-body .timeline-pf-line {
@@ -98,6 +98,7 @@ text.timeline-pf-event-group {
 }
 
 .timeline-pf-slider {
+  padding: 0;
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
@@ -108,7 +109,7 @@ text.timeline-pf-event-group {
 }
 
  .timeline-pf-grid-stripes line {
+  shape-rendering: crispEdges;
   stroke: #d1d1d1;
   stroke-width: 1px;
-  shape-rendering: crispEdges;
 }

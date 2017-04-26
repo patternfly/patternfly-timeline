@@ -63,7 +63,8 @@ export default class zoom {
           .attr('min', configuration.minScale)
           .attr('max', configuration.maxScale)
           .attr('step', 0.1)
-          .on('input', () => {this.zoomClick()});
+          .on('input', () => {this.zoomClick()})
+          .on('change', () => {this.zoomClick()});
       zoomSlider
         .style('top', `${configuration.padding.top + ((dimensions.height - (zoomIn.node().offsetHeight) * 2) / 2) + zoomIn.node().offsetHeight - (zoomSlider.node().offsetHeight / 2)}px`)
         .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width +
