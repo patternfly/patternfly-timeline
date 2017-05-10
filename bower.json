@@ -2,7 +2,7 @@
   "name": "patternfly-timeline",
   "description": "A time based/event series interactive visualization using d3.js. Use drag and zoom to navigate in time.",
   "main": "dist/timeline.js",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "authors": [
     "Red Hat"
   ],
