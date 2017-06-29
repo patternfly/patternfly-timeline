@@ -8,8 +8,8 @@
     "url": "https://github.com/cshinn/patternfly-timeline"
   },
   "dependencies": {
-    "d3": "3.5.3",
-    "patternfly": "~3.7.0"
+    "d3": "3.5.17",
+    "patternfly": "~3.25.0"
   },
   "devDependencies": {
     "babel-core": "6.4.5",
