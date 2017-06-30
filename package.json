@@ -8,7 +8,7 @@
     "url": "https://github.com/cshinn/patternfly-timeline"
   },
   "dependencies": {
-    "d3": "3.5.17",
+    "d3": "~3.5.17",
     "patternfly": "~3.25.0"
   },
   "devDependencies": {
