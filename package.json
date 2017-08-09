@@ -5,7 +5,7 @@
   "main": "dist/timeline.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cshinn/patternfly-timeline"
+    "url": "https://github.com/patternfly/patternfly-timeline"
   },
   "dependencies": {
     "d3": "~3.5.17",
