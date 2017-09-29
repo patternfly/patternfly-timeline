@@ -47,7 +47,6 @@ export default class zoom {
           .attr('id', 'timeline-pf-zoom-out')
           .style('top', `${configuration.padding.top + dimensions.height - 26}px`)
           .on('click', () => {this.zoomClick()});
-          console.log(zoomIn.node().offsetWidth);
       zoomOut
         .style('left', `${configuration.padding.left + configuration.labelWidth + dimensions.width + (configuration.sliderWidth - zoomOut.node().offsetWidth)}px`)
         .append('i')
